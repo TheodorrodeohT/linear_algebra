@@ -1,0 +1,1940 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{cmap}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage[left=2cm, right=2cm, top=1cm, bottom=2cm]{geometry}
+\usepackage{indentfirst}
+\usepackage{amsmath, amsfonts, amsthm, mathtools, amssymb, icomma, units, yfonts}
+\usepackage{amsthm}
+\usepackage{algorithmicx, algorithm}
+\usepackage{algpseudocode}
+\usepackage{relsize}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{esvect}
+\usepackage{enumerate}
+\usepackage{multirow}
+\usetikzlibrary{calc,matrix}
+\usetikzlibrary{shapes.misc}
+
+\makeatletter
+\newenvironment{sqcases}{%
+    \matrix@check\sqcases\env@sqcases
+}{%
+    \endarray\right.%
+}
+\def\env@sqcases{%
+    \let\@ifnextchar\new@ifnextchar
+    \left\lbrack
+    \def\arraystretch{1.2}%
+    \array{@{}l@{\quad}l@{}}%
+}
+\makeatother
+
+\DeclareRobustCommand{\divby}{%
+    \mathrel{\text{\vbox{\baselineskip.65ex\lineskiplimit0pt\hbox{.}\hbox{.}\hbox{.}}}}
+}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\me}{\mathbbm{e}}
+\newcommand{\mf}{\mathbbm{f}}
+\newcommand{\Ker}{\text{Ker}}
+\newcommand{\Mat}{\text{Mat}}
+\newcommand{\rk}{\text{rk}}
+\renewcommand{\Im}{\text{Im}}
+\usepackage{bbm}  % \mathbbm{}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+        \node[shape=circle,draw,inner sep=1.5pt] (char) {#1};}}
+\newcommand*\roundrect[1]{
+    \begin{tikzpicture}[baseline=(char.base)]
+    \node(char)[draw,fill=white,
+    shape=rounded rectangle,
+    minimum width=1.8cm]
+    {#1};
+    \end{tikzpicture}}
+
+\begin{document}
+\title{Линейная алгебра.\\ Коллоквиум 2 семестр.\\ Основано на реальных событиях.\\ v0.7}
+\date{26 мая 2017}
+
+\maketitle
+
+\part*{Ченжлоги}
+v0.0 (20.05.2017) --- \textit{исходное: добавлены 1--10 вопросы (спасибо Соне, Даше, Лизе, Наташе, Алёне)}
+
+v0.1 (21.05.2017) --- \textit{поправил 1, 2, 6 (спасибо Борису, Соне, Александру Г. (Ц.))}
+
+v0.2 (22.05.2017) --- \textit{добавил 11--15. Поправил 2, 7 (спасибо Александру Г. (Ц.), Борису, Наташе)}
+
+v0.3 (23.05.2017) --- \textit{поправил 2 ($2 \Rightarrow 3$ и $3 \Rightarrow 4$), дополнил 3, (спасибо Наташе, Глебу, Соне), добавил 16--20}
+
+v0.4 (24.05.2017) --- \textit{поправил 2, 3, 4, 6, 8 (спасибо Соне, Боре, Глебу), добавил 21--30}
+
+v0.5 (24.05.2017) --- \textit{добавил 31--40, поправил 7, 10, 11, 18, 20, 22, 24, 28 (спасибо Наташе, Глебу, Соне, Алексею, Лизе, Юле, Мовсесу, Борису)}
+
+v0.6 (25.05.2017) --- \textit{добавил 41, 42, 45 (спасибо Глебу)}
+
+v0.7 (25.05.2017) --- \textit{поправил 18, 19, 42, добавил 44 (спасибо Юле, Наташе, Артёму, Никите)}
+
+\part*{Доказательства}
+
+\section*{1. Теорема о связи размерности суммы двух подпространств с размерностью их пересечения}
+\noindent \textbf{Теорема}. $\dim(U \cap W) = \dim U + \dim W - \dim (U + W)$ \\
+\noindent \textbf{Доказательство}. Пусть $p = \dim (U \cap W),\ k = \dim U,\ m = \dim W$. Выберем базис $a = \{a_1, \ldots, a_p\}$ в пересечении. Его можно дополнить до базиса $U$ и до базиса $W$. Значит, $\exists b = \{b_1, \ldots, b_{k - p}\}$ такой, что $a \cup b$ --- базис в $U$ и $\exists c = \{c_1, \ldots, c_{m - p}\}$ такой, что $a \cup c$ --- базис в $W$.
+
+Докажем, что $a \cup b \cup c$ --- базис в $U + W$.
+
+\vspace{-4mm}
+\begin{enumerate}
+\item Докажем, что $U + W$ порождается множеством $a \cup b \cup c$.
+\vspace{-3mm}
+\[
+\left.\begin{aligned}
+&v \in U + W \Rightarrow \exists u \in U,\ w \in W: v = u + w\ \\
+&u \in U = \langle a \cup b \rangle \subset \langle a \cup b \cup c \rangle \\
+&w \in W = \langle a \cup c \rangle \subset \langle a \cup b \cup c  \rangle
+\end{aligned}\right|\Rightarrow
+\begin{aligned}
+v = u + w &\in \langle a \cup b \cup c \rangle \Rightarrow \\
+&\Rightarrow U + W = \langle a \cup b \cup c \rangle
+\end{aligned}
+\]
+\item Докажем линейную независимость векторов из $a \cup b \cup c$. \\
+Пусть скаляры $\alpha_1, \ldots, \alpha_p, \beta_1, \ldots, \beta_{k - p}, \gamma_1, \ldots, \gamma_{m - p}$ таковы, что
+\vspace{-3mm}
+\[
+\underbrace{\alpha_1a_1 + \ldots + \alpha_pa_p}_x +
+\underbrace{\beta_1b_1 + \ldots + \beta_{k - p}b_{k - p}}_y +
+\underbrace{\gamma_1c_1 + \ldots + \gamma_{m - p}c_{m - p}}_z = 0
+\]
+\vspace{-4mm}
+\[
+\left.\begin{aligned}
+&x + y + z = 0 \\
+&z = -x - y \\
+&z \in W \\
+&-x - y \in U \cap W\ % т.к. x выражается через базис пересечения, а y выражается через базис U, в то время как z лежит в W
+\end{aligned}\right| \Rightarrow
+\exists \lambda_1, \ldots, \lambda_p \in F: z = \lambda_1a_1 + \ldots + \lambda_pa_p
+\]
+\end{enumerate}
+
+Тогда $\lambda_1a_1 + \ldots + \lambda_pa_p - \gamma_1c_1 - \ldots - \gamma_{m - p}c_{m - p} = 0$. Но $a \cup c$ --- базис $W$. Следовательно, $\lambda_1 = \ldots = \lambda_p = \gamma_1 = \ldots = \gamma_{m - p} = 0$. Но тогда $0 = x + y = \alpha_1a_1 + \ldots + \alpha_pa_p + \beta_1b_1 + \ldots + \beta_{k - p}b_{k - p}$. Но $a \cup b$ --- базис $U \Rightarrow \alpha_1 = \ldots = \alpha_p = \beta_1 = \ldots = \beta_{k - p} = 0$. Итого, все коэффициенты равны нулю и линейная независимость тем самым доказана. Т.е. $a \cup b \cup c$ --- базис $U + W$.
+
+\vspace{-3mm}
+\begin{align*}
+\dim(U + W) = |a \cup b \cup c| = |a| + |b| + |c| = p + k - p + m - p = k + m - p = \\ = \dim U + \dim W - \dim(U \cap W).
+\end{align*}
+
+\section*{2. Теорема о пяти эквивалентных условиях, определяющих набор линейно независимых подпространств векторного пространства}
+\textbf{Теорема}. Следующие 5 условий эквивалентны:
+
+\vspace{-2mm}
+\begin{enumerate}
+\itemsep-0.3em
+\item Если $u_1 + \ldots + u_k = 0 \Rightarrow u_1 = \ldots = u_k = 0$ ($U_1, \ldots, U_k$ --- линейно независимы)
+\item Любой $u$ единственным образом представим в виде $u = u_1 + \ldots + u_k$, где $u_i \in U_i$
+\item Если $\me_i$ --- базис в $U_i$, то $\me_1 \cup \ldots \cup \me_k$ --- базис $U_1 + \ldots + U_k$
+\item $\dim(U_1 + \ldots + U_k) = \dim U_1 + \ldots + \dim U_k$
+\item $U_i \cap (U_1 + \ldots + U_{i - 1} + U_{i + 1} + \ldots + U_k) = \{0\}$
+\end{enumerate}
+
+\textbf{Доказательство}.
+
+\roundrect{$1 \Rightarrow 2$} Пусть $u_1 + \ldots + u_k = u_1' + \ldots + u_k'$, где $u_i,\ u_i' \in U_i$. Тогда
+\vspace{-3mm}
+\begin{gather*}
+\underbrace{(u_1 - u_1')}_{\in U_1} + \ldots + \underbrace{(u_k - u_k')}_{\in U_k} = \vec 0 \Rightarrow \\
+\Rightarrow (u_1 - u_1') = \ldots = (u_k - u_k') = \vec 0 \Rightarrow \\
+\Rightarrow u_1 = u_1', \ldots, u_k = u_k'.
+\end{gather*}
+
+\roundrect{$2 \Rightarrow 3$} Пусть $u \in U_1 + \ldots + U_k$. Тогда $u$ единственно представим в виде $u = u_1 + \ldots + u_k$, где $u_i \in U_i$.
+
+Каждый $u$ единственным образом представим в виде линейной комбинации векторов из $\me_1 \cup \ldots \cup \me_k$ (так как каждый $u_i$ представляется в базисе $\me_i$) $\Longrightarrow \me_1 \cup \ldots \cup \me_k$ --- базис.
+
+\vspace{2mm}
+\roundrect{$3 \Rightarrow 4$} Пусть $\me_1 \cup \ldots \cup \me_k$ --- базис $U_1 + \ldots + U_k$ и пусть наш базис --- мультимножество (т.е. одинаковые векторы могут учитываться по нескольку раз). Тогда 
+\vspace{-2mm}
+\begin{align*}
+\dim(U_1 + \ldots + U_k) &= |e_1^1 + \ldots + e_{s_1}^1 + \ldots + e_1^k + \ldots + e_{s_k}^k| = \\ &= |e_1^1 + \ldots + e_{s_1}^1| + \ldots + |e_1^k + \ldots + e_{s_k}^k| = \dim U_1 + \ldots + \dim U_k.
+\end{align*}
+
+\roundrect{$4 \Rightarrow 5$} Пусть для краткости $\overline{U_i} = U_1 + \ldots + U_{i - 1} + U_{i + 1} + \ldots + U_k$. Тогда
+\begin{gather*}
+\dim(U_i \cap \overline{U_i}) = \dim U_i + \dim \overline{U_i} - \dim\underbrace{(U_i + \overline{U_i})}_{U_1 + \ldots + U_k} \leqslant \\
+\leqslant \dim U_i + \dim U_1 + \ldots + \dim U_{i - 1} + \dim U_{i + 1} + \ldots + \dim U_k - \dim U_1 - \ldots - \dim U_k.
+\end{gather*}
+
+\vspace{-2mm}
+Итак, $\dim(U_i \cap \overline{U_i}) \leqslant 0 \Longrightarrow \dim(U_i \cap \overline{U_i}) = 0 \Longrightarrow U_i \cap \overline{U_i} = \{\vec 0\}$.
+
+\vspace{2mm}
+\roundrect{$5 \Rightarrow 1$} Пусть $\vec 0 = u_1 + \ldots + u_k$, где $u_i \in U_i$. Тогда для любого $i$ имеем
+\vspace{-3mm}
+\begin{gather*}
+u_i = -u_1 - \ldots - u_{i - 1} - u_{i + 1} - \ldots - u_k \Rightarrow \\
+\Rightarrow u_i \in U_i \cap \overline{U_i} = \{\vec 0\} \Rightarrow u_i = \vec 0.
+\end{gather*}
+
+\section*{3. Описание всех базисов $n$-мерного векторного пространства в терминах одного базиса и матриц координат. Формула преобразования координат вектора при замене базиса векторного пространства}
+Пусть $V$ --- векторное пространство, $\dim V = n$, $e_1, \ldots, e_n$ --- базис. То есть
+\vspace{-3mm}
+\[
+\forall v \in V:\ \exists!\ v = x_1e_1 + \ldots + x_ne_n,
+\]
+
+\vspace{-3mm}
+где $x_1, \ldots, x_n \in F$ --- координаты вектора $v$ в базисе ($e_1, \ldots, e_n$). Пусть также есть набор векторов $e_1', \ldots, e_n'$:
+\[\begin{aligned}
+e_1' &= c_{11}e_1 + c_{21}e_2 + \ldots + c_{n1}e_n \\
+e_2' &= c_{12}e_1 + c_{22}e_2 + \ldots + c_{n2}e_n \\
+&\vdots \\
+e_n' &= c_{1n}e_1 + c_{2n}e_2 + \ldots + c_{nn}e_n
+\end{aligned}\]
+
+Обозначим матрицу $C = (c_{ij})$. Тогда можно переписать ($e_1', \ldots, e_n'$) как $(e_1, \ldots, e_n) \cdot C$.
+
+\vspace{5mm}
+\textbf{Предложение}. $e_1', \ldots, e_n'$ образуют базис тогда и только тогда, когда $\det C \neq 0$.
+
+\textbf{Доказательство}.
+
+\circled{$\Rightarrow$} $e_1', \ldots, e_n'$ --- базис, а значит $\exists C' \in \text{M}_n:$
+\vspace{-3mm}
+\begin{gather*}
+(e_1, \ldots, e_n) = (e_1', \ldots, e_n')C' = (e_1, \ldots, e_n)CC' \\
+E = CC' \\
+C' = C^{-1} \Longleftrightarrow \exists C^{-1} \Longleftrightarrow \det C \neq 0
+\end{gather*}
+
+\circled{$\Leftarrow$} $\det C \neq 0 \Rightarrow \exists C^{-1}$. Покажем, что $e_1', \ldots, e_n'$ в таком случае линейно независимы. Пусть $\lambda_1e_1' + \ldots + \lambda_ne_n' = 0$. Тогда можно записать
+\vspace{-3mm}
+\begin{gather*}
+(e_1', \ldots, e_n')
+\begin{pmatrix}
+\lambda_1 \\
+\vdots \\
+\lambda_n
+\end{pmatrix} = 0 \Longleftrightarrow
+(e_1, \ldots, e_n)C
+\begin{pmatrix}
+\lambda_1 \\
+\vdots \\
+\lambda_n
+\end{pmatrix} = 0
+\end{gather*}
+
+\vspace{-3mm}
+Так как $(e_1, \ldots, e_n)$ --- базис, то $
+C
+\begin{pmatrix}
+\lambda_1 \\
+\vdots \\
+\lambda_n
+\end{pmatrix} = 0$. Умножая слева на обратную матрицу получаем $\lambda_1 = \ldots = \lambda_n = 0$.
+
+\vspace{3mm}
+\textbf{Предложение}. Формула преобразований координат вектора при переходе к новому базису:
+\vspace{-3mm}
+\[
+\begin{pmatrix}x_1 \\ \vdots \\ x_n \end{pmatrix} = C \begin{pmatrix} x_1' \\ \vdots \\ x_n' \end{pmatrix}.
+\]
+
+\textbf{Доказательство}.
+
+\textit{С одной стороны}: $v = x_1e_1 + \ldots + x_ne_n = (e_1, \ldots, e_n) \begin{pmatrix}x_1 \\ \vdots \\ x_n \end{pmatrix}$.
+
+\textit{С другой стороны}: $v = x_1'e_1' + \ldots + x_n'e_n' = (e_1', \ldots, e_n') \begin{pmatrix}x_1' \\ \vdots \\ x_n' \end{pmatrix} = (e_1, \ldots, e_n)C \begin{pmatrix}x_1' \\ \vdots \\ x_n' \end{pmatrix}$
+
+Так как $e_1, \ldots, e_n$ --- линейно независимы, то $\begin{pmatrix} x_1 \\ \vdots \\ x_n\end{pmatrix} = C \begin{pmatrix} x_1' \\ \vdots \\ x_n'\end{pmatrix}$
+
+\section*{4. Докажите, что отношение изоморфности на множестве всех векторных пространств является отношением эквивалентности}
+\textbf{Теорема}. $"$Изоморфность$"$ --- отношение эквивалентности на множестве всех векторных пространств над фиксированным полем $F$.
+
+\textbf{Доказательство}.
+\vspace{0mm}
+\begin{enumerate}[I.]
+\itemsep=-0.3em
+\item \textit{Рефлексивность}. $\varphi: V \rightarrow V$ --- изоморфизм.\\
+$\text{Id}: V \simeq V$
+\item \textit{Симметричность}. $\varphi: V \rightarrow W$ --- изоморфизм $\Longrightarrow \varphi^{-1}: W \rightarrow V$ --- тоже изоморфизм. \\
+Т.к. отображение $\varphi^{-1}$ также биективно, то осталось проверить, что оно линейно. \\
+Пусть $w_1,\ w_2 \in W$. Тогда $\exists v_1,\ v_2 \in V$, такие что
+\vspace{-3mm}
+\[
+w_1 = \varphi(v_1),\ w_2 = \varphi(v_2) \Rightarrow v_1 = \varphi^{-1}(w_1),\ v_2 = \varphi^{-1}(w_2).
+\]
+Теперь $\varphi^{-1}(w_1 + w_2) = \varphi^{-1}(\varphi(v_1) + \varphi(v_2)) = \varphi^{-1}(\varphi(v_1 + v_2)) = v_1 + v_2 = \varphi^{-1}(w_1) + \varphi^{-1}(w_2)$. \\
+$\varphi^{-1}(\alpha w) = \varphi^{-1}(\alpha \varphi(v)) = \varphi^{-1}(\varphi(\alpha v)) = \alpha v = \alpha \varphi^{-1}(w)$.
+\item \textit{Транзитивность}. $\psi \circ \varphi: U \xrightarrow{\varphi} V \xrightarrow{\psi} W$. Если $\varphi$ и $\psi$ --- изоморфизм, то $\psi \circ \varphi$ --- тоже изоморфизм. \\
+Докажем, что если $\varphi$ и $\psi$ --- линейны, то $\psi \circ \varphi$ --- тоже линейна.
+\vspace{-3mm}
+\begin{gather*}
+(\psi \circ \varphi)(v_1 + v_2) = \psi(\varphi(v_1 + v_2)) = \psi(\varphi(v_1) + \varphi(v_2)) = \\
+= \psi(\varphi(v_1)) + \psi(\varphi(v_2)) = (\psi \circ \varphi)(v_1) + (\psi \circ \varphi)(v_2). \\
+(\psi \circ \varphi)(\alpha v) = \psi(\varphi(\alpha v)) = \psi(\alpha \varphi(v)) = \\
+= \alpha \psi(\varphi(v)) = \alpha(\psi \circ \varphi)(v).
+\end{gather*}
+Тогда очевидно, что транзитивность следует из линейности, так как композиция двух биективных отображений также биективна.
+\end{enumerate}
+
+\section*{5. Критерий изоморфности двух конечномерных векторных пространств}
+\textbf{Теорема}. $V,\ W$ --- конечномерные векторные пространства $\Longrightarrow V \simeq W \Longleftrightarrow \dim V = \dim W$.
+Докажем две леммы.
+
+\textbf{Лемма 1}. $\dim V = n \Rightarrow V \simeq F^n$.
+
+\textbf{Доказательство}. Рассмотрим отображение $\varphi: V \rightarrow F^n$. Выберем базис $(e_1, \ldots, e_n)$ в $V$. Тогда
+\vspace{-2mm}
+\[
+x_1e_1 + \ldots + x_ne_n \mapsto
+\begin{pmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{pmatrix},\ \ x_i \in F.
+\]
+
+Отображение является изоморфизмом (т.к. линейно и биективно), а следовательно $V \simeq F^n$.
+
+\textbf{Лемма 2}. Пусть $\varphi: V \simeq W$ --- изоморфизм. $e_1, \ldots, e_n$ --- базис $V$. Тогда $\varphi(e_1), \ldots, \varphi(e_n)$ --- базис $W$.
+
+\textbf{Доказательство}. Пусть $w \in W$, тогда существует $v \in V: w = \varphi(v)$. Положим $v = \varphi^{-1}(w)$. Тогда
+\vspace{-3mm}
+\begin{align*}
+&\Rightarrow v = x_1e_1 + \ldots + x_ne_n,\ \ x_i \in F \\
+&\Rightarrow w = \varphi(v) = \varphi(x_1e_1 + \ldots + x_ne_n) = x_1\varphi(e_1) + \ldots + x_n\varphi(e_n) \\
+&\Rightarrow W = \langle \varphi(e_1), \ldots, \varphi(e_n) \rangle
+\end{align*}
+
+Теперь покажем, что $\varphi(e_1), \ldots, \varphi(e_n)$ --- линейно независимы.
+
+Пусть $\alpha_1\varphi(e_1) + \ldots + \alpha_n\varphi(e_n) = 0$, где $\alpha_i \in F$. Тогда $\varphi(\alpha_1e_1 + \ldots + \alpha_ne_n) = 0$. Применим $\varphi^{-1}$: $\alpha_1e_1 + \ldots + \alpha_ne_n = \varphi^{-1}(0) = 0$. Так как $e_1, \ldots, e_n$ --- базис $V$, то $\alpha_1 = \ldots = \alpha_n = 0$.
+
+\textbf{Доказательство теоремы}.
+
+\circled{$\Leftarrow$} Пусть $\dim V = \dim W = n$. Тогда $V \simeq F^n$, $W \simeq F^n$ (по лемме 1), а следовательно $V \simeq W$.
+
+\circled{$\Rightarrow$} Пусть $V \simeq W$ и $\dim V = n$. Пусть $\varphi: V \simeq W$ --- изоморфизм. $(e_1, \ldots, e_n)$ --- базис $V$.
+
+Тогда $\varphi(e_1), \ldots \varphi(e_n)$ --- базис $W$ (по лемме 2), а следовательно $\dim W = n = \dim V$.
+
+\section*{6. Существование и единственность линейного отображения с заданными образами базисных векторов. Связь между координатами вектора и его образа при линейном отображении. Формула изменения матрицы линейного отображения при замене базисов.}
+Пусть $V,\ W$ --- векторные пространства. $(e_1, \ldots, e_n)$ --- базис $V$. $\varphi: V \rightarrow W$ --- линейное отображение.
+
+\textbf{Предложение 1}. $\varphi$ однозначно определено векторами $\varphi(e_1), \ldots, \varphi(e_n)$.
+
+\textbf{Доказательство}. $v \in V \Longrightarrow v = x_1e_1 + \ldots + x_ne_n$, где $x_i \in F$.
+
+Тогда $\varphi(v) = \varphi(x_1e_1 + \ldots + x_ne_n) = x_1\varphi(e_1) + \ldots + x_n\varphi(e_n)$.
+
+\vspace{5mm}
+\textbf{Предложение 2}. Для любого набора $f_1, \ldots, f_n \in W$ существует единственное линейное отображение $\varphi: V \rightarrow f$, такое что $(\varphi(e_1) = f_1), \ldots, (\varphi(e_n) = f_n)$.
+
+\textbf{Доказательство}. $v = x_1e_1 + \ldots + x_ne_n$.
+
+Положим $\varphi(v) = \varphi(x_1e_1 + \ldots + x_ne_n) = x_1f_1 + \ldots + x_nf_n$. Тогда легко убедиться, что $\varphi$ линейно (прямая проверка), а единственность следует из пункта 1.
+
+\vspace{5mm}
+\textbf{Предложение 3}. Если $v = x_1e_1 + \ldots + x_ne_n$ и $\varphi(v) = y_1f_1 + \ldots + y_mf_m$, то
+\vspace{-3mm}
+\[
+\begin{pmatrix}
+y_1 \\
+\vdots \\
+y_m
+\end{pmatrix} = A \cdot
+\begin{pmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{pmatrix}.
+\]
+
+\textbf{Доказательство}.
+
+С одной стороны:
+\vspace{-3mm}
+\begin{gather*}
+\varphi(v) = \varphi(x_1e_1 + \ldots + x_ne_n) = x_1\varphi(e_1) + \ldots + x_n\varphi(e_n) = \\ = (\varphi(e_1), \ldots, \varphi(e_n))
+\begin{pmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{pmatrix} = (f_1, \ldots, f_m) A
+\begin{pmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{pmatrix}
+\end{gather*}
+
+С другой стороны:
+\vspace{-3mm}
+\[
+\varphi(v) = (f_1, \ldots, f_m)
+\begin{pmatrix}
+y_1 \\
+\vdots \\
+y_m
+\end{pmatrix}
+\]
+
+Так как $f_1, \ldots, f_m$ --- линейно независимы, то $A
+\begin{pmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{pmatrix} =
+\begin{pmatrix}
+y_1 \\
+\vdots \\
+y_m
+\end{pmatrix}$.
+
+\vspace{5mm}
+\textbf{Предложение}. Пусть $V$ и $W$ --- векторные пространства, $\me = (e_1, \ldots, e_n)$ и $\me' = (e_1', \ldots, e_n')$ --- базисы $V$, $\mf = (f_1, \ldots, f_m)$ и $\mf' = (f_1', \ldots, f_m')$--- базисы $W$, $A$ --- матрица линейного отображения $\varphi: V \rightarrow W$ по отношению к $\me$ и $\mf$, $A'$ --- матрица линейного отображения по отношению к базисам $\me'$ и $\mf'$. $\me' = \me C$, $\mf' = \mf D$. Тогда
+\vspace{-3mm}
+\[
+A' = D^{-1}AC\ (A = DA'C^{-1})
+\]
+
+\textbf{Доказательство}. 
+\vspace{-3mm}
+\begin{gather*}
+(e_1', \ldots, e_n') = (e_1, \ldots, e_n) C \Rightarrow \\ \Rightarrow \underbrace{(\varphi(e_1'), \ldots, \varphi(e_n'))}_{(f_1', \ldots, f_m')A' = (f_1, \ldots, f_m)DA'} = \underbrace{(\varphi(e_1), \ldots, \varphi(e_n))}_{(f_1, \ldots, f_m)A}C = (f_1, \ldots, f_m) A C \Rightarrow \\ \Rightarrow DA' = AC \Rightarrow A' = D^{-1}AC.
+\end{gather*}
+
+\section*{7. Установите изоморфизм между пространствами $\text{Hom}(V,\ W)$ и $\Mat_{m \times n}$, где $V$ и $W$ --- векторные пространства размерностей $n$ и $m$ соответственно}
+\textbf{Теорема}. При фиксированных базисах $\me$ и $\mf$ отображение $\text{Hom}(V,\ W) \rightarrow \Mat_{m \times n}(F): \varphi \rightarrow A(\varphi,\ \me,\ \mf)$ является изоморфизмом векторных пространств $V$ и $W$.
+
+Рассмотрим две вещи:
+
+\textbf{Утверждение}. $\text{Hom}(V,\ W) \rightarrow \Mat_{m \times n}(F): \varphi \mapsto A(\varphi,\ \me,\ \mf)$ является биекцией.
+
+\textbf{Вывод}. Задать линейное отображение $V \rightarrow W$ --- то же самое, что выбрать базис $\me$ в $V$, базис $\mf$ в $W$ и задать матрицу $(m \times n)$, где $n = \dim V,\ m = \dim W$.
+
+\textbf{Наглядный пример}. $\varphi: \R^3 \rightarrow \R^2: (x,\ y,\ z) \mapsto (x,\ y)$.
+
+$\me = (e_1,\ e_2,\ e_3),\ \mf = (f_1,\ f_2)$. Тогда
+\vspace{-9mm}
+\begin{align*}
+&\varphi(e_1) = f_1 \\
+&\varphi(e_2) = f_2 \\
+&\varphi(e_3) = 0
+\end{align*}
+
+Следовательно, $A(\varphi,\ \me,\ \mf) =
+\begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0
+\end{pmatrix}$.
+
+\textbf{Предложение}. Положим
+\vspace{-5mm}
+\begin{align*}
+&\me = (e_1, \ldots, e_n)\ \text{--- базис } V \\
+&\mf = (f_1, \ldots, f_m)  \text{--- базис } W \\
+&A_\varphi = A(\varphi,\ \me,\ \mf) \\
+&A_\psi = A(\psi,\ \me,\ \mf) \\
+&A_{\varphi + \psi} = A(\varphi + \psi,\ \me,\ \mf) \\
+&A_{\lambda\varphi} = A(\lambda\varphi,\ \me,\ \mf)
+\end{align*}
+
+\vspace{-9mm}
+\begin{enumerate}
+\itemsep=-0.3em
+\item $A_{\varphi + \psi} = A_\varphi + A_\psi$: \\
+С одной стороны: $((\varphi + \psi)e_1, \ldots, (\varphi + \psi)e_n) = (f_1, \ldots, f_m)A_{\varphi + \psi}$. \\
+С другой стороны:
+\vspace{-3mm}
+\begin{gather*}
+((\varphi + \psi)e_1, \ldots, (\varphi + \psi)e_n) = (\varphi(e_1) + \psi(e_1), \ldots, \varphi(e_n) + \psi(e_n)) = \\ = (\varphi(e_1), \ldots, \varphi(e_n)) + (\psi(e_1), \ldots, \psi(e_n)) = \\
+= (f_1, \ldots, f_m)A_\varphi + (f_1, \ldots, f_m)A_\psi = (f_1, \ldots, f_m)(A_\varphi + A_\psi) \Rightarrow \\
+\Rightarrow A_{\varphi + \psi} = A_\varphi + A_\psi.
+\end{gather*}
+\item $A_{\lambda\varphi} = \lambda A_\varphi$ \\
+С одной стороны: $((\lambda\varphi) e_1, \ldots, (\lambda\varphi) e_n) = (f_1, \ldots, f_m)A_{\lambda\varphi}$. \\
+С другой стороны:
+\vspace{-3mm}
+\begin{gather*}
+((\lambda\varphi)e_1, \ldots, (\lambda\varphi)e_n) = (\lambda\varphi(e_1), \ldots, \lambda\varphi(e_n)) = \lambda(\varphi(e_1), \ldots, \varphi(e_n)) = \\ = \lambda (f_1, \ldots, f_m)A_{\varphi} = (f_1, \ldots, f_m)\lambda A_\varphi \Rightarrow \\ \Rightarrow A_{\lambda\varphi} = \lambda A_\varphi.
+\end{gather*}
+\end{enumerate}
+
+Таким образом, очевидно, что так как отображение биективно и линейно, то оно является изоморфизмом.
+
+\section*{8. Докажите, что ядро и образ линейного отображения являются подпространствами в соответствующих векторных пространствах. Сформулируйте и докажите критерий инъективности линейного отображения в терминах его ядра}
+\textbf{Предложение 1}. $\Ker\varphi$ --- подпространство в $V$.
+
+\textbf{Доказательство}. Проверим по определению.
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=-0.3em
+\item $0_v \in \Ker\varphi$, так как $\varphi(0_v) = 0_w$.
+\item $v_1,\ v_2 \in \Ker\varphi \Longrightarrow \varphi(v_1 + v_2) = \varphi(v_1) + \varphi(v_2) = 0_w + 0_w = 0_w \Longrightarrow v_1 + v_2 \in \Ker\varphi$.
+\item $v \in \Ker\varphi,\ \lambda \in F \Longrightarrow \varphi(\lambda v) = \lambda \varphi(v) = \lambda 0 = 0 \Longrightarrow \lambda v \in \text{Ket}\varphi$.
+\end{enumerate}
+
+\textbf{Предложение 2}. $\Im\varphi$ --- подпространство в $W$.
+
+\textbf{Доказательство}. Проверим по определению.
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=-0.3em
+\item $0_w = \varphi(0_v) \Longrightarrow 0_w \in \Im\varphi$.
+\item $w_1,\ w_2 \in \Im\varphi \Longrightarrow \exists v_1,\ v_2 \in V: w_1 = \varphi(v_1),\ w_2 = \varphi(v_2) \Longrightarrow w_1 + w_2 = \varphi(v_1) + \varphi(v_2) = \varphi(v_1 + v_2) \Longrightarrow w_1 + w_2 \in \Im\varphi$.
+\item $w \in \Im\varphi, \lambda \in F \Longrightarrow \exists v \in V: \varphi(v) = w \Longrightarrow \lambda w = \lambda\varphi(v) = \varphi(\lambda v) \Longrightarrow \lambda w \in \Im\varphi$.
+\end{enumerate}
+
+Таким образом, все условия подпространства выполнены.
+
+\vspace{5mm}
+\textbf{Предложение}. Отображение $\varphi$ инъективно тогда и только тогда, когда $\Ker\varphi = \{0\}$.
+
+\textbf{Доказательство}.
+
+\circled{$\Rightarrow$} Очевидно, так как если $\Ker\varphi = \{0\}$, то это значит, что у 0 существует единственный прообраз.
+
+\circled{$\Leftarrow$} Пусть $v_1,\ v_2 \in V$ таковы, что $\varphi(v_1) = \varphi(v_2)$.
+
+Тогда $\varphi(v_1 - v_2) = 0 \Longrightarrow v_1 - v_2 \in \Ker\varphi \Longrightarrow v_1 - v_2 = 0 \Longleftrightarrow v_1 = v_2$.
+
+
+\section*{9. Связь между рангом матрицы линейного отображения и размерностью его образа}
+Для начала докажем одну лемму.
+
+\textbf{Лемма}. $U \subseteq V$ --- подпространство и $(e_1, \ldots, e_k)$ --- его базис. Тогда $\varphi(U) = \langle \varphi(e_1), \ldots, \varphi(e_k) \rangle$ --- подпространство. В частности, $\dim\varphi(U) \leqslant \dim U$.
+
+\textbf{Доказательство}. $u \in U \Longrightarrow u = \lambda_1e_1 + \ldots + \lambda_ke_k \Longrightarrow \varphi(u) = \varphi(\lambda_1e_1 + \ldots + \lambda_ke_k) = \lambda_1\varphi(e_1) + \ldots + \lambda_ke\varphi(e_k) \in \langle \varphi(e_1), \ldots, \varphi(e_k) \rangle$.
+
+\vspace{5mm}
+Пусть $V,\ W$ --- векторные пространства, $\me = (e_1, \ldots, e_n)$ --- базис $V$, $\mf = (f_1, \ldots, f_m)$ --- базис $W$, $A = A(\varphi,\ \me,\ \mf)$ --- матрица линейного отображения $\varphi$ по отношению к $\me$ и $\mf$.
+
+\textbf{Теорема}. $\dim\Im\varphi = \rk A$
+
+\textbf{Доказательство}. Воспользуемся леммой, доказанной выше: $\Im\varphi = \langle \varphi(e_1), \ldots, \varphi(e_n) \rangle$.
+
+Координаты вектора $\varphi(e_i)$ находятся в столбце $A^{(i)} \Longrightarrow \lambda_1\varphi(e_1) + \ldots + \lambda_n\varphi(e_n) = 0 \Longleftrightarrow \lambda_1 A^{(1)} + \ldots + \lambda_n A^{(n)} = 0 \Longrightarrow \rk\{\varphi(e_1), \ldots, \varphi(e_n)\} = \rk A$.
+
+$\dim\langle \varphi(e_1), \ldots, \varphi(e_k) \rangle = \dim \Im\varphi$.
+
+\section*{10. Оценки на ранг произведения двух матриц}
+\textbf{Теорема}. Пусть $A \in \Mat_{k \times m},\ B \in \Mat_{m \times n}$. Тогда $\rk AB \leqslant \min(\rk A,\ \rk B)$.
+
+\textbf{Доказательство}. Реализуем $A$ и $B$ как матрицы линейных отображений, то есть $\varphi_A: F^m \rightarrow F^k,\ \ \varphi_B:F^n \rightarrow F^m$. Тогда $AB$ будет матрицей отображения $\varphi_A \circ \varphi_B$.
+\vspace{-3mm}
+\[
+\rk(AB) = \rk(\varphi_A \circ \varphi_B) =
+\begin{cases*}
+\leqslant\dim\Im\varphi_A = \rk A \\
+\leqslant\dim\Im\varphi_B = \rk B
+\end{cases*}
+\]
+
+Первое неравенство следует из того, что $\Im(\varphi_A \circ \varphi_B) \subset \Im\varphi_A$, откуда, в свою очередь следует, что $\dim\Im(\varphi_A \circ \varphi_B) \leqslant \dim\Im\varphi_A$.
+
+Рассматривая второе неравенство, получим:
+\vspace{-3mm}
+\[
+\Im(\varphi_A \circ \varphi_B) = \varphi_A(\Im\varphi_B) \Longrightarrow \dim\Im(\varphi_A \circ \varphi_B) = \dim(\varphi_A(\Im\varphi_B)) \leqslant \dim\Im\varphi_B.
+\]
+
+\section*{11. Теорема о связи размерностей ядра и образа линейного отображения}
+Для начала докажем предложение.
+
+\textbf{Предложение}. Пусть $\me = (e_1, \ldots, e_n)$ --- базис $V$ такой, что $(e_1, \ldots, e_k)$ --- базис $\Ker\varphi$, а $(\varphi(e_{k + 1}), \ldots, \varphi(e_n)))$ --- базис $\Im\varphi$.
+
+\textit{Замечание}. Базис с указанным свойством существует всегда, так как его можно получить путём дополнения базиса $\Ker\varphi$ до базиса всего пространства $V$.
+
+\textbf{Доказательство}. Дополним базис $(e_1, \ldots, e_k)$ до базиса $V$ векторами $e_{k + 1}, \ldots, e_n$. Тогда:
+\vspace{-3mm}
+\begin{align*}
+\Im\varphi = \langle \varphi(e_1), \ldots, \varphi(e_k), \ldots \varphi(e_n) \rangle = \\ = \langle 0, \ldots, 0, \varphi(e_{k + 1}), \ldots + \varphi(e_n) \rangle = \\ = \langle \varphi(e_{k + 1}), \ldots, \varphi(e_n) \rangle.
+\end{align*}
+
+\vspace{-3mm}
+$\varphi(e_{k + 1}), \ldots, \varphi(e_n)$ --- линейно независимы. Тогда пусть $\alpha_{k + 1}\varphi(e_{k + 1}) + \ldots + \alpha_n\varphi(e_n) = 0$, где $\alpha_{k + 1}, \ldots, \alpha_n \in F$. Тогда:
+
+\vspace{-9mm}
+\begin{gather*}
+\varphi(\alpha_{k + 1}e_{k + 1} + \ldots + \alpha_ne_n) = 0 \Rightarrow \\
+\Rightarrow \alpha_{k + 1}e_{k + 1} + \ldots + \alpha_ne_n \in \Ker\varphi \Rightarrow \\
+\Rightarrow \alpha_{k + 1}e_{k + 1} + \ldots + \alpha_ne_n = \beta_{1}e_{1} + \ldots + \beta_ke_k,\ \text{где } \beta_{1}, \ldots, \beta_k \in F.
+\end{gather*}
+
+\vspace{-3mm}
+Но так как $e_{k + 1},\ \ldots, e_n$ --- базис $V$, то $\alpha_{k + 1} = \ldots = \alpha_n = \beta_{1} = \ldots = \beta_k = 0$. То есть векторы $\varphi(e_{k + 1}), \ldots, \varphi(e_n)$ --- линейно независимы, а значит они образуют базис $\Im\varphi$.
+
+\vspace{5mm}
+\textbf{Теорема}. $\dim\Im\varphi = \dim V - \dim\Ker\varphi$.
+
+\textbf{Доказательство}. Выберем базис в $V$ такой же, как в предположении.
+
+Тогда $\dim\Im\varphi = n - k = \dim V - \dim\Ker\varphi$.
+
+\section*{12. Приведение матрицы линейного отображения к диагональному виду с единицами и нулями на диагонали}
+Пусть $\varphi: V \rightarrow W$ --- линейное отображение. $\me$ --- базис $V$, $\mf$ --- базис $W$.
+
+$A = A(\varphi,\ \me,\ \mf) \in \Mat_{m \times n},\ \rk A = r$. 
+
+\textbf{Утверждение}. Существуют базис $\me'$ в $V$ и базис $\mf'$ в $W$ такие, что $A(\varphi,\ \me',\ \mf')$ имеет вид:
+
+\vspace{-3mm}
+\[
+A' =
+\left(\begin{tabular}{ccc|ccc}
+1 & $\cdots$ & 0 & 0 & $\cdots$ & 0 \\
+$\vdots$ & $\ddots$ & 0 & 0 & $\cdots$ & 0 \\
+0 & $\cdots$ & 1 & 0 & $\cdots$ & 0 \\ \hline
+0 & $\cdots$ & 0 & 0 & $\cdots$ & 0 \\
+$\vdots$ & $\ddots$ & $\vdots$ & $\vdots$ & $\ddots$ & $\vdots$ \\
+0 & $\cdots$ & 0 & 0 & $\cdots$ & 0
+\end{tabular}\right),\ \rk A' = r
+\]
+
+\vspace{5mm}
+\textbf{Эквивалентное утверждение}. Существуют невырожденные матрицы $C \in \text{M}_n,\ D \in \text{M}_m$, такие что $A' = D^{-1}AC \Longleftrightarrow A = DA'C^{-1}$.
+
+\textbf{Доказательство}. Реализуем $A$ как матрицу линейного отображения $\varphi: F^n \rightarrow F^m$ в стандартных базисах.
+
+Тогда существует базис $\me = (e_1, \ldots, e_n)$ такой, что $(e_{r + 1}, \ldots, e_n)$
+--- базис $\Ker\varphi$, а $\varphi(e_1), \ldots, \varphi(e_r)$ --- базис $\Im\varphi$.
+
+Пусть $\mf$ --- базис $F^m$, дополняющий систему $\varphi(e_1), \ldots, \varphi(e_r)$. Тогда $A(\varphi,\ \me,\ \mf) = A'$.
+
+Результат следует из теоремы о замене базисов.
+
+\section*{13. Докажите, что всякий базис сопряженного пространства двойственен к некоторому базису исходного векторного пространства}
+\textbf{Предложение}. Любой базис $\varepsilon = (\varepsilon_1, \ldots, \varepsilon_n)$ пространства $V^*$ двойственен к некоторому базису пространства $V$.
+
+\textbf{Доказательство}. Возьмём произвольный базис $\me' = (e_1', \ldots, e_n')$ пространства $V$.
+
+Пусть $\varepsilon' = (\varepsilon_1', \ldots, \varepsilon_n')$ двойственный к $\me'$ базис в $V^*$.
+
+Тогда $\begin{pmatrix}\varepsilon_1 \\ \vdots \\ \varepsilon_n \end{pmatrix} = C \begin{pmatrix}\varepsilon_1' \\ \vdots \\ \varepsilon_n' \end{pmatrix}$ для некоторой невырожденной матрицы $C \in \text{M}_n$.
+
+Положим $\me = (e_1, \ldots, e_n) = (e_1', \ldots, e_n') C^{-1}$ --- некий (искомый) базис в $V^*$.
+
+Зная, что $\begin{pmatrix}\varepsilon_1 \\ \vdots \\ \varepsilon_n \end{pmatrix}(e_1, \ldots, e_n) = E$, имеем $\begin{pmatrix}\varepsilon_1 \\ \vdots \\ \varepsilon_n \end{pmatrix} (e_1, \ldots, e_n) = C\begin{pmatrix}\varepsilon_1' \\ \vdots \\ \varepsilon_n' \end{pmatrix}(e_1', \ldots, e_n')C^{-1} = CEC^{-1} = E$.
+
+\section*{14. Докажите, что всякое подпространство в $F^n$ является множеством решений некоторой однородной системы линейных уравнений}
+\textbf{Теорема}. Всякое подпространство $F^n$ есть множество решений некоторой ОСЛУ.
+
+\textbf{Доказательство}. Пусть $a_1x_1 + \ldots + a_nx_n = 0$.
+
+$(a_1, \ldots, a_n)
+\begin{pmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{pmatrix} = 0$ --- значение линейной функции $\alpha = (a_1, \ldots, a_n)$ на векторе $
+\begin{pmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{pmatrix}$.
+
+Пусть дано подпространство $U \subseteq F^n$. Выберем в нём базис $(v_1, \ldots, v_k)$.
+
+Рассмотрим в $(F^n)^*$ подмножество $S := \{\alpha \in (F^n)^*\ |\ \alpha(v_1) = 0, \ldots, \alpha(v_k) = 0\}$. $S$ --- подпространство в $(F^n)^*$.
+
+$S$ --- множество решений ОСЛУ $
+\begin{cases*}
+\alpha(v_1) = 0, \\[-0.5em]
+\ \vdots \\[-0.5em]
+\alpha(v_k) = 0
+\end{cases*}$ на коэффициенты $\alpha$.
+
+Так как $v_1, \ldots, v_k$ линейно независимы, то ранг матрицы коэффициентов равен $k \Longrightarrow \dim S = n - k$.
+
+Выберем в $S$ базис $\alpha_1, \ldots, \alpha_{n - k}$ и рассмотрим ОСЛУ $
+\begin{cases*}
+\alpha_1(x) = 0, \\[-0.5em]
+\ \vdots \\[-0.5em]
+\alpha_{n - k}(x) = 0
+\end{cases*}$ относительно неизвестного вектора $x \in F^n$.
+
+Пусть $U' \subseteq F^n$ --- подпространство решений этой ОСЛУ.
+
+Ранг матрицы коэффициентов равен $n - k$, так как $\alpha_1, \ldots, \alpha_{n - k}$ линейно независимы $\Longrightarrow \dim U' = n - (n - k) = k$. Но $U \subseteq U'$ по построению.
+
+Так как $\dim U = k = \dim U'$, то $U = U' \Longrightarrow 
+\begin{cases*}
+\alpha_1(x) = 0, \\[-0.5em]
+\ \vdots \\[-0.5em]
+\alpha_{n - k}(x) = 0
+\end{cases*}$ --- искомая ОСЛУ. 
+
+\section*{15. Формула для вычисления значений билинейной формы в координатах. Существование и единственность билинейной формы с заданной матрицей. Формула изменения матрицы билинейной формы при переходе к другому базису}
+Пусть $\me = (e_1, \ldots, e_n)$ --- базис $V$ ($\dim V = n < \infty$).
+
+\textbf{Определение}. Матрица $B = B(\beta,\ \me)$, где $b_{ij} = \beta(e_i,\ e_j)$, называется матрицей билинейной функции $\beta$ в базисе $\me$.
+
+Пусть $B = B(\beta,\ \me)$, $\me = (e_1, \ldots, e_n)$ --- базис $V$, $x = x_1e_1 + \ldots + x_ne_n \in V$, $y = y_1e_1 + \ldots + y_ne_n \in V$.
+\vspace{-6mm}
+\begin{gather*}
+\beta(x,\ y) = \beta(\sum_{i = 1}^{n}x_ie_i,\ \sum_{j = 1}^{n}y_je_j) = \sum_{i = 1}^{n}x_i \cdot \beta(e_i,\ \sum_{j = 1}^{n}y_je_j) = \\
+= \sum_{i = 1}^{n} x_i \sum_{j = 1}^{n} y_j \cdot \underbrace{\beta(e_i,\ e_j)}_{b_{ij}} = \sum_{i = 1}^{n}\sum_{j = 1}^{n}x_ib_{ij}y_j = \\
+= (x_1, \ldots, x_n) B
+\begin{pmatrix}
+y_1 \\
+\ldots \\
+y_n
+\end{pmatrix}\ (*)\
+\end{gather*}
+
+\vspace{-3mm}
+($*$) --- формула для вычисления значений б.ф. в координатах.
+
+\vspace{5mm}
+Пусть $\me$ --- произвольный базис $V$. Тогда:
+
+\textbf{Предложение 1}. Любая билинейная функция однозначно определяется своей матрицей в базисе $\me$.
+
+\textbf{Доказательство 1}. Следует из ($*$).
+
+\vspace{5mm}
+\textbf{Предложение 2}. Для любой матрицы $V \in \text{M}_n(F)$ существует единственная билинейная функция $\beta$ на $V$, такая что $B(\beta,\ \me) = B$.
+
+\textbf{Доказательство 2}. \textit{Единственность} следует из 1.
+
+\textit{Существование}: зададим $\beta$ по формуле ($*$). Тогда $\beta$ --- билинейная функция на $V$ и её матрицей является $B$.
+
+\vspace{5mm}
+Пусть $\me = (e_1, \ldots, e_n)$ и $\me' = (e_1', \ldots, e_n')$ --- два базиса $V$. $\beta$ --- билинейная функция на $V$. $\me' = \me C$ --- матрица перехода. $B = B(\beta,\ \me)$ и $B' = B(\beta,\ \me')$.
+
+\textbf{Предложение}. $B' =  C^TBC$.
+
+\textbf{Доказательство}. Рассмотрим $x$ в обоих базисах.
+\vspace{-3mm}
+\begin{gather*}
+x = x_1e_1 + \ldots + x_ne_n = x_1'e_1' + \ldots + x_n'e_n' \\
+y = y_1e_1 + \ldots + y_ne_n = y_1'e_1' + \ldots + y_n'e_n' \\
+\begin{pmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{pmatrix} = C
+\begin{pmatrix}
+x_1' \\
+\vdots \\
+x_n'
+\end{pmatrix};\ 
+\begin{pmatrix}
+y_1 \\
+\vdots \\
+y_n
+\end{pmatrix} = C
+\begin{pmatrix}
+y_1' \\
+\vdots \\
+y_n'
+\end{pmatrix}
+\end{gather*}
+
+\begin{gather*}
+(x_1', \ldots, x_n')B'
+\begin{pmatrix}
+y_1' \\
+\vdots \\
+y_n'
+\end{pmatrix} = \beta(x,\ y) = (x_1, \ldots, x_n)B
+\begin{pmatrix}
+y_1 \\
+\vdots \\
+y_n
+\end{pmatrix} \\
+\beta(x,\ y) = (x_1', \ldots, x_n') C^T B C
+\begin{pmatrix}
+y_1' \\
+\vdots \\
+y_n'
+\end{pmatrix}
+\end{gather*}
+
+Отсюда следует, что $B' = C^TBC$, так как  для любого $p \in \text{Mat}_n$ верно 
+\vspace{-3mm}
+\[
+p_{ij} =  (0 \ldots i \ldots 0)p
+\begin{pmatrix}
+0 \\
+\vdots \\
+1_j \\
+\vdots \\
+0
+\end{pmatrix}.
+\]
+
+\section*{16. Соответствие между симметричными билинейными формами и квадратичными формами}
+Пусть в поле $F$ выполняется условие $1 + 1 \neq 0$ (т.е. $2 \neq 0$).
+
+Тогда отображение $\beta \mapsto Q_\beta$ является биекцией между симметричными билинейными функциями на $V$ и квадратичными функциями на $V$.
+
+\textbf{Доказательство}.
+
+\textit{Сюръективность}. Пусть $\beta$ --- билинейная функция. Рассмотрим ассоциированную с ней квадратичную функцию $Q_\beta(x) = \beta(x,\ x)$. Пусть $\sigma(x,\ y) = \frac{1}{2}(\beta(x,\ y) + \beta(y, \ x))$ --- симметричная билинейная функция на $V$. Тогда:
+\vspace{-3mm}
+\[
+Q_\sigma(x) = \sigma(x,\ x) = \frac{1}{2}(\beta(x,\ x) + \beta(x, \ x)) = \beta(x,\ x) = Q_\beta(x)
+\]
+
+\vspace{-3mm}
+\textit{Инъективность}. Пусть $\beta(x,\ y)$ --- симмитричная билинейная функция, $Q_\beta(x) = \beta(x,\ x)$ --- соответствующая ей квадратичная функция.
+\vspace{-3mm}
+\begin{gather*}
+Q_\beta(x + y) = \beta(x + y,\ x + y) = \beta(x,\ x) + \beta(x,\ y) + \beta(y,\ x) + \beta(y,\ y) = \\ = Q_\beta(x) + Q_\beta(y) + \underbracket{2\beta(x,\ y)}_{\beta(x,\ y) = \beta(y,\ x)} \Rightarrow \\ \Rightarrow \beta(x,\ y) = \frac{1}{2}(Q_\beta(x + y) - Q_\beta(x) - Q_\beta(y)).
+\end{gather*}
+
+\section*{17. Метод Лагранжа приведения квадратичной формы к каноническому виду}
+Пусть $V$ --- векторное пространство, $\dim V = n$, $\me = (e_1, \ldots, e_n)$ --- базис $V$, $Q: V \rightarrow F$ --- квадратичная функция на $V$.
+
+\textbf{Теорема} (метод Лагранжа). Пусть в $F: 1 + 1 \neq 0$. Тогда для всякой квадратичной функции $Q$ существует такой базис, в котором $Q$ имеет канонический вид.
+
+\textbf{Доказательство}.
+
+Оформим \textit{индукцию} по $n$.
+
+$\underline{n = 1}$: тогда $Q(x) = b_{11}x_1^2$ --- канонический вид, очевидно.
+
+Предположим, что для всех $< n$, докажем для $n$. Пусть в исходном базисе $\me$:
+\vspace{-3mm}
+\[
+Q(x) = Q(x_1, \ldots, x_n) = \sum_{i = 1}^{n}b_{ii}x_i^2 + \sum_{1 \leqslant i < j \leqslant n}2b_{ij}x_ix_j,
+\]
+
+\vspace{-3mm}
+где $B = (b_{ij})$ --- матрица квадратичной функции $Q$.
+
+\vspace{3mm}
+\underline{Случай 0}: $b_{ij} = 0$ для всех $i,\ j$. Тогда очевидно.
+
+\vspace{3mm}
+\underline{Случай 1}: существует такое $i$, что $b_{ii} \neq 0$. Перенумеруем переменные так, что $b_{11} \neq 0$:
+\vspace{-3mm}
+\begin{gather*}
+Q(x_1, \ldots, x_n) = b_{11}x_1^2 + 2b_{12}x_1x_2 + \ldots + 2b_{1n}x_1x_n + Q_1(x_2, \ldots, x_n) = \\ = \frac{1}{b_{11}}(b_{11}^2x_1^2 + 2b_{11}b_{12}x_1x_2 + \ldots + 2b_{11}b_{1n}x_1x_n) + Q_1(x_2, \ldots, x_n) = \\ = \frac{1}{b_{11}}(b_{11}x_1 + \ldots + b_{1n}x_n)^2 - \underbrace{\frac{1}{b_{11}}(b_{12}x_2 + \ldots + b_{1n}x_n)^2 + Q_1(x_2, \ldots, x_n)}_{Q_2(x_2, \ldots, x_n)} = \\ = \frac{1}{b_{11}}(b_{11}x_1 + \ldots + b_{1n}x_n)^2 + Q_2(x_2, \ldots, x_n) = \\ = \frac{1}{b_{11}}x_1'^2 + Q_2(x_2', \ldots, x_n'),
+\end{gather*}
+
+\vspace{-3mm}
+где
+$
+\begin{cases*}
+x_1' = b_{11}x_1 + \ldots + b_{1n}x_n, \\
+x_2' = x_2, \\[-0.5em]
+\vdots \\[-0.5em]
+x_n' = x_n
+\end{cases*}
+$, то есть замена координат
+$
+\begin{cases*}
+x_1 = \frac{1}{b_{11}}(x_1' - b_{12}x_2' - \ldots - b_{1n}x_n'), \\
+x_2 = x_2', \\[-0.5em]
+\vdots \\[-0.5em]
+x_n = x_n'
+\end{cases*}
+$.
+
+Далее применяем предположение индукции к $Q_2(x_2', \ldots, x_n')$.
+
+\vspace{3mm}
+\underline{Случай 2}: $b_{ii} = 0$ для всех $i$, но существует $b_{ij} \neq 0$ при $i < j$.
+
+Б.о.о. считаем, что $b_{12} \neq 0$. Делаем замену:
+
+\vspace{2mm}
+$
+\begin{cases*}
+x_1 = x_1' - x_2', \\
+x_2 = x_1' + x_2', \\
+x_3 = x_3', \\[-0.5em]
+\vdots \\[-0.5em]
+x_n = x_n'
+\end{cases*}
+$ Тогда $Q(x') = \underbrace{2b_{12}x_1'^2 - 2b_{12}x_2'^2}_{2b_{12}x_1x_2} + \mathlarger{\sum}\limits_{1 \leqslant i < j \leqslant n}2b_{ij}x_i'x_j'$, что есть 1-й случай.
+
+\section*{18. Метод Якоби приведения квадратичной формы к каноническому виду}
+Вначале докажем лемму.
+
+Пусть $\me'$ --- базис $V$, имеющий вид $
+\begin{cases*}
+e_1' = e_1, \\
+e_2' \in e_2 + \langle e_1 \rangle, \\
+e_3' \in e_3 + \langle e_1,\ e_2 \rangle, \\[-0.5em]
+\vdots \\[-0.5em]
+e_n' \in e_n + \langle e_1, \ldots, e_{n - 1} \rangle
+\end{cases*}$ ($*$),
+
+\vspace{-11mm}
+$B' = B(Q,\ \me')$
+
+ $B_k' = B_k(Q,\ \me')$ --- матрица $k$-го углового минора
+
+$\delta_k' = \delta_k(Q,\ \me')$ --- определитель матрицы $k$-го углового минора
+
+\vspace{2mm}
+\textbf{Лемма}. $\forall\ k = 1, \ldots, n: \delta_k = \delta_k'$.
+
+\textbf{Доказательство}. При любом $k$ имеем $B_k' = C_k^TB_kC_k \Rightarrow \delta_k' = \det B_k' = \det(C_k^TB_kC_k) = \underset{=1}{(\det C_k^T)} (\det B_k) \underset{=1}{(\det C_k)} = \det B_k = \delta_k$.
+
+\vspace{5mm}
+\textbf{Теорема} (метод Якоби лекционный). Положим, что $\delta_k \neq 0$ для всех $k = 1, \ldots, n$. Тогда единственно существует базис $\me' = (e_1', \ldots, e_n')$ в $V$ такой, что
+
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=0em
+\item $\me'$ имеет вид ($*$)
+\item В этом базисе $Q$ имеет канонический вид $Q(x) = \dfrac{\delta_1}{\delta_0}x_1'^2 + \dfrac{\delta_2}{\delta_1}x_2'^2 + \ldots + \dfrac{\delta_n}{\delta_{n - 1}}x_n'^2$
+
+(то есть $B(Q,\ \me') = \text{diag}(\dfrac{\delta_1}{\delta_0}, \dfrac{\delta_2}{\delta_1}, \ldots, \dfrac{\delta_n}{\delta_{n - 1}})$).
+\end{enumerate}
+
+\textbf{Доказательство}.
+
+Оформим \textit{индукцию} по $n$.
+
+$\underline{n = 1}$: $Q(x) = \delta_1x_1'^2$ --- очевидно, верно.
+
+Докажем для $n - 1$. Пусть векторы $e_1', \ldots, e_n'$ уже построены:
+\vspace{-3mm}
+\[
+B(Q,\ (e_1', \ldots, e_{n - 1}', e_n)) =
+\begin{pmatrix}
+\delta_1 &                           &        &                                       & * \\
+& \frac{\delta_2}{\delta_1} &        &                 0                     & * \\
+&                           & \ddots &                                       & * \\
+&           0               &        & \frac{\delta_{n - 1}}{\delta_{n - 2}} & * \\
+*     &              *            &    *   &                  *                    & *
+\end{pmatrix}
+\]
+
+\vspace{-3mm}
+Ищем $e_n'$ в виде $e_n + \langle e_1, \ldots, e_{n - 1} \rangle = e_n + \langle e_1', \ldots, e_{n - 1}' \rangle$,
+
+т.е. в виде $e_n' = e_n + \lambda_1 e_1' + \ldots + \lambda_{n - 1}e_{n - 1}'$.
+
+Пусть $\beta: V \times V \rightarrow F$ --- симметричная билинейная форма, соответствующая $Q$.
+
+\vspace{-3mm}
+\begin{gather*}
+\beta(e_k',\ e_n') = 
+\beta(e_k',\ e_n) + \lambda_1\beta(e_k',\ e_1') + \ldots + \lambda_{k - 1}\beta(e_k',\ e_{k - 1}') = \\
+= \beta(e_k',\ e_n) + \beta(e_k',\ e_k') = \\
+= \beta(e_k',\ e_n) + \lambda_k\dfrac{\delta_k}{\delta_{k - 1}}.
+\end{gather*}
+
+Тогда $\beta(e_k',\ e_n') = 0$ тогда и только тогда, когда $\lambda_k = -\beta(e_k',\ e_n) \dfrac{\delta_{k - 1}}{\delta_k}$ --- единственное значение.
+
+В итоге построен базис $\me' = (e_1', \ldots, e_n')$ такой, что
+\vspace{-3mm}
+\[
+B(Q,\ (e_1', \ldots, e_{n - 1}', e_n)) =
+\begin{pmatrix}
+\delta_1 &                           &        &                                       &   \\
+& \frac{\delta_2}{\delta_1} &        &                 0                     &   \\
+&                           & \ddots &                                       &   \\
+&           0               &        & \frac{\delta_{n - 1}}{\delta_{n - 2}} &   \\
+&                           &        &                                       & ?
+\end{pmatrix}
+\]
+
+\vspace{-3mm}
+Но в силу доказанной выше леммы $\delta_n = \delta_n' = \delta_1 \cdot \dfrac{\delta_2}{\delta_1} \cdot \ldots \cdot \dfrac{\delta_{n - 1}}{\delta_{n - 2}} \cdot ? = \delta_{n - 1} \cdot ? \Longrightarrow ? = \dfrac{\delta_n}{\delta_{n - 1}}$.
+
+\section*{19. Существование нормального вида для квадратичной формы над $\R$. Закон инерции}
+\textbf{Предложение}. Для любой квадратичной формы $Q$ над $\R$ существует базис, в котором $Q$ принимает нормальный вид.
+
+\textbf{Доказательство}. Знаем, что существует базис, в котором $Q$ имеет канонический вид. $Q(x) = b_1x_1^2 + \ldots + b_nx_n^2$.
+
+Делаем невырожденную замену $x_i =
+\begin{cases*}
+\dfrac{x_i'}{\sqrt{|b_i|}},\ \text{если } b_i \neq 0, \\
+x_i',\ \text{если } b_i = 0
+\end{cases*}$
+
+Тогда в новых координатах (= новом базисе) $Q$ имеет вид $Q(x') = \varepsilon_1x_1'^2 + \ldots + \varepsilon_nx_n'^2$, где $\varepsilon_i = \text{sgn}b_i = 
+\begin{cases*}
+1,\ b_i > 0, \\
+0,\ b_i = 0, \\
+-1,\ b_i < 0
+\end{cases*}$. Всё доказали.
+
+\vspace{7mm}
+Пусть $Q$ --- квадратичная функция над $R$, которая в базисе $\me$ имеет нормальный вид:
+\vspace{-3mm}
+\[
+Q(x_1,\ \ldots,\ x_n) = x_1^2 + \ldots + x_s^2 - x_{s + 1}^2 - \ldots - x_{s + t}^2,
+\]
+
+\vspace{-3mm}
+где $s$ --- количество положительных слагаемых, $t$ --- количество отрицательных слагаемых. Тогда
+
+$i_+ := s$ --- \textbf{положительный индекс инерции} квадратичной формы $Q$
+
+$i_- := t$ --- \textbf{отрицательный индекс инерции} квадратичной формы $Q$
+
+\textbf{Теорема} (закон инерции). Числа $i_+ = s$ и $i_- = t$ не зависят от базиса, в котором $Q$ принимает нормальный вид.
+
+\textbf{Доказательство}.  $s + t = \rk Q$ --- инвариантная величина $\Rightarrow$ достаточно доказать инвариантность $s$.
+
+Пусть базис $\me = \langle e_1, \ldots, e_n \rangle$ таков, что в нём $Q(x) = x_1^2 + \ldots + x_s^2 - x_{s + 1}^2 - \ldots - x_{s + t}^2$
+
+Пусть базис $\me' = \langle e_1', \ldots, e_n' \rangle$ таков, что в нём $Q(x) = x_1'^2 + \ldots + x_{s'}'^2 - x_{s' + 1}'^2 - \ldots - x_{s' + t'}'^2$
+
+Предположим, что $s \neq s'$. Можем считать, что $s > s'$.
+
+Рассмотрим в $V$ подпространства $
+\begin{cases*}
+L = \langle e_1, \ldots, e_s \rangle,\ \dim L = s, \\
+L' = \langle e_{s' + 1}', \ldots, e_{s' + t'}' \rangle,\ \dim L' = s'
+\end{cases*}
+$.
+
+$L + L' \subseteq V \Rightarrow \dim(L + L') \leqslant \dim V = n$.
+
+Тогда $\dim(L \cap L') = \dim L + \dim L' - \dim (L + L') \geqslant s + n - s' - n = s - s' > 0$.
+
+Тогда $\exists v \in L \cap L',\ v \neq 0$.
+
+Т.к. $v \in L$, то $Q(v) > 0$.
+
+Т.к. $v \in L'$, то $Q(v) \leqslant 0$.
+
+Противоречие!
+
+\section*{20. Следствие метода Якоби о нахождении индексов инерции квадратичной формы над $\R$. Критерий Сильвестра положительной определённости квадратичной формы. Критерий отрицательной определённости квадратичной формы}
+$Q: V \rightarrow \R$ --- квадратичная форма
+
+$\me = (e_1, \ldots, e_n)$ --- базис
+
+$B = B(Q,\ \me)$
+
+$B_k = B_k(Q,\ \me)$
+
+$\delta_k = \det B_k$ --- $k$-й угловой минор
+
+\textbf{Следствие} (метода Якоби). Пусть $\delta_k \neq 0$ для всех $k = 1, \ldots, n$.
+
+Тогда $i_-$ равен числу перемен знака в последовательности $1, \delta_1, \ldots, \delta_n$.
+
+\textbf{Доказательство}. Метод Якоби: существует базис, в котором $Q$ принимает вид
+
+\vspace{-3mm}
+\[
+Q(x) = \dfrac{\delta}{1}x_1^2 + \dfrac{\delta_2}{\delta_1}x_2^2 + \ldots + \dfrac{\delta_n}{\delta_{n + 1}}x_n^2.
+\]
+
+Получаем, что если для некоторого $i$ выполняется $\dfrac{\delta_i}{\delta_{i - 1}}$, значит $\text{sgn}\delta_i \neq \text{sgn}\delta_{i - 1}$, что и означает, что отрицательный индекс $i_-$ равен числу перемен знака.
+
+\vspace{5mm}
+\textbf{Теорема} (Критерий Сильвестра). $Q > 0$ тогда и только тогда, когда $\delta_k > 0$ для всех $k = 1, \ldots, n$.
+
+\textbf{Доказательство}.
+
+\circled{$\Leftarrow$} Следует из следствия метода Якоби: $i_- = 0 \Longrightarrow i_+ = n \Longrightarrow Q > 0$.
+
+\circled{$\Rightarrow$} $Q > 0 \Longrightarrow$ существует матрица $C \in \text{M}_n(\R),\ \det C \neq 0$, такая что $C^TBC = E$. Тогда $\det C^T \cdot \det B \cdot \det C = 1 \Longrightarrow \delta_n = \det B = \dfrac{1}{(\det C)^2} > 0$.
+
+$\forall k\ B_k$ есть матрица ограничения квадратной функции $Q$ на подпространство $\langle e_1, \ldots, e_k \rangle$. На этом подпространстве будет также положительная определенность $\Longrightarrow \delta_k = \det B_k > 0$.
+
+\vspace{5mm}
+\textbf{Теорема} (критерий отрицательной определенности).
+\vspace{-3mm}
+\[Q < 0 \Longleftrightarrow
+\begin{cases*}
+\delta_i < 0,\ i \not{\divby}\ 2 \\
+\delta_i > 0,\ i \divby 2
+\end{cases*}
+\]
+
+\vspace{-3mm}
+\textbf{Доказательство}. $Q < 0 \Longleftrightarrow -Q > 0$. Далее применяем критерий Сильвестра.
+
+\section*{21. Неравенство Коши-Буняковского, неравенство треугольника и теорема Пифагора в евклидовом пространстве}
+\textbf{Предложение} (неравенство К-Б). Пусть $x,\ y \in \E$. Тогда $|(x,\ y)| \leqslant |x||y|$, причём знак равенства возможен только в том случае, если $x,\ y$ --- пропорциональны.
+
+\textbf{Доказательство}.
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=0em
+\item $x,\ y$ --- пропорциональны (можно считать, что $y = \alpha x$, $\alpha \in \R$) \\
+Тогда $|(x,\ y)| = |(x,\ \alpha x)| = |\alpha||(x,\ x)| = |\alpha||x|^2 = |x||\alpha x| = |x||y|$.
+\item $x,\ y$ --- не пропорциональны \\
+Тогда они линейно независимы $\Longrightarrow$ $x,\ y$ --- базис в $\langle x,\ y \rangle$. Ограничение квадратичной функции $Q(v) = (v, v)$ на $\langle x,\ y \rangle$ положительно определено; тогда по критерию Сильвестра $\det
+\begin{vmatrix}
+(x,\ x) & (x,\ y) \\
+(x,\ y) & (y,\ y)
+\end{vmatrix} > 0$, то есть $(x,\ x)(y,\ y) - (x,\ y)^2 > 0 \Longrightarrow |x|^2 |y|^2 > |(x,\ y)|^2$.
+\end{enumerate}
+
+\vspace{5mm}
+\textbf{Предложение} (неравенство треугольника).
+\vspace{-3mm}
+\[
+\rho(a,\ b) + \rho(b,\ c) \geqslant \rho(a,\ c)\ \ \forall a, b, c \in \E.
+\]
+
+\textbf{Доказательство}. Пусть $x := a - b,\ y := b - c$. Надо доказать $|x| + |y| \geqslant |x + y|$:
+
+$|x + y|^2 = (x + y,\ x + y) = \underset{|x|^2}{(x,\ x)} + \underset{2|x||y|\text{ (по К-Б)}}{2(x,\ y)} + \underset{|y|^2}{(y,\ y)} \leqslant |x|^2 + 2|x||y| + |y|^2 = (|x| + |y|)^2$.
+
+\vspace{5mm}
+\textbf{Предложение} (теорема Пифагора). Пусть $x,\ y \in \E,\ \ x\bot y\ ((x,\ y) = 0)$. Тогда $|x + y|^2 = |x|^2 + |y|^2$.
+
+\textbf{Доказательство}. $|x + y|^2 = (x + y,\ x + y) = \underset{|x|^2}{(x,\ x)} + \underset{0}{(x,\ y)} + \underset{0}{(y,\ x)} + \underset{|y|^2}{(y,\ y)} = |x|^2 + |y|^2$.
+
+\section*{22. Свойства определителя матрицы Грама системы векторов евклидова пространства}
+Пусть $v_1, \ldots, v_k$ --- система векторов в $\E$. $G = G(v_1, \ldots, v_k)$.
+
+\textbf{Предложение 1}. $\forall v_1, \ldots, v_k \in E,\ \ \det G(v_1, \ldots, v_k) \geqslant 0$.
+
+\textbf{Предложение 2}. $\det G(v_1, \ldots, v_k) = 0$ тогда и только тогда, когда $v_1, \ldots, v_k$ --- линейно зависимы.
+
+\vspace{5mm}
+\textbf{Доказательство 1}. $v_1, \ldots, v_k$ --- линейно независимы $\Longrightarrow$ $v_1, \ldots, v_k$ --- базис в $\langle v_1, \ldots, v_k \rangle \Longrightarrow \det G > 0$ по критерию Сильвестра (т.к. $G$ есть матрица билинейной функции $(\cdot\ ,\ \cdot)$ на $\langle v_1, \ldots, v_k \rangle$ в базисе $(v_1, \ldots, v_k$).
+
+\textbf{Доказательство 2}. $v_1, \ldots, v_k$ --- линейно зависимы.
+
+Тогда $\lambda_{(1)} v_1 + \ldots + \lambda_{(k)} v_k = 0$ для некоторого набора $(\lambda_{(1)}, \ldots, \lambda_{(k)}) \neq (0, \ldots, 0)$.
+
+Тогда $\forall i = 1, \ldots, k$:
+\vspace{-6mm}
+\begin{gather*}
+\lambda_{(1)} (v_1,\ v_i) + \ldots + \lambda_{(k)} (v_k,\ v_i) = 0 \Rightarrow \\
+\Rightarrow \lambda_{(k)} G_{(1)} + \ldots + \lambda_{(k)} G_{(k)} = 0 \Rightarrow \\
+\Rightarrow \text{строки $G$ линейно зависимы} \Rightarrow \det G = 0.
+\end{gather*}
+
+\section*{23. Свойства ортогонального дополнения к подпространству в евклидовом пространстве}
+\textbf{Предложение}. Пусть $S \subseteq \E$ --- подпространство, $\dim\E = n$. Тогда:
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=-0.3em
+\item $\dim S^\bot = n - \dim S$
+\item $\E= S \oplus S^\bot$
+\item $(S^\bot)^\bot = S$
+\end{enumerate}
+
+\textbf{Доказательство}.
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=0em
+\item Пусть $e_1, \ldots, e_k$ --- базис в $S$. Дополним его до базиса всего пространства $\E$. \\
+Пусть $x = x_1e_1 + \ldots + x_ne_n,\ x \in \E$. \\
+Если $x \in S^\bot$, то это то же самое, что $(x,\ e_i) = 0$ для всех $i = 1, \ldots, k$. Тогда:
+\vspace{-3mm}
+\[
+(x,\ e_i) = x_1(e_1,\ e_i) + x_2(e_2,\ e_i) + \ldots + x_n(e_n,\ e_i) = 0,\ \forall i = 1, \ldots, k.
+\]
+
+\vspace{-3mm}
+Тогда $x$ есть решение ОСЛУ: $G\begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix} = 0$ с матрицей $G \in \Mat_{k \times n}(\R)$, где $g_{ij} = (e_i,\ e_j)$. \\
+Так как левый блок размера $k \times k$ матрицы $G$ есть $G(e_1, \ldots, e_k)$, где $e_1, \ldots, e_k$ --- линейно независимы, то $\det G(e_1, \ldots, e_n) > 0$, следовательно $\rk G = k$. Тогда $\dim S^\bot = n - \rk G = n - k = n - \dim S$.
+\item Из предыдущего пункта получили, что $\dim S + \dim S^\bot = n = \dim\E$. \\
+Если $s \in S \cap S^\bot$, то $(\underset{\in S}{v},\ \underset{\in S^\bot}{v}) = 0 \Longrightarrow v = 0 \Longrightarrow S \cap S^\bot = \{0\} \Longrightarrow$ $S$ и $S^\bot$ линейно независимы $\Longrightarrow \E = S \oplus S^\bot$.
+\item $\dim (S^\bot)^\bot = \dim\E - \dim(S^\bot) = \dim\E- (\dim\E - \dim S) = \dim S$. Остаётся заметить, что $S \subseteq (S^\bot)^\bot \Longrightarrow S = (S^\bot)^\bot$.
+\end{enumerate}
+
+\section*{24. Формула для ортогональной проекции вектора на подпространство в $\R^n$, заданное своим базисом}
+Пусть $\E = \R^n$ со стандартным скалярным произведением. $S \subseteq \R^n$ --- подпространство, $a_1, \ldots, a_k$ --- базис в $S$. Образуем матрицу $A \in \Mat_{n \times k}(\R)$, где $A^{(i)} = a_i$.
+
+\textbf{Предложение}. $\forall v \in \E:\ pr_Sv = A(A^TA)^{-1}A^Tx$
+
+\textbf{Доказательство}. \textit{Корректность}: $A^TA = (a_i,\ a_j) = G(a_1, \ldots, a_k)$ --- невырожденная матрица, так как $a_1, \ldots, a_k$ --- линейно независимы, следовательно $(A^TA)^{-1}$ существует.
+
+Пусть $v \in \E$, тогда $x = pr_Sv \Rightarrow x \in S \Rightarrow x = \lambda_1a_1 + \ldots + \lambda_ka_k = A\begin{pmatrix}\lambda_1 \\ \vdots \\ \lambda_k \end{pmatrix}$.
+
+$y = ort_Sv \Rightarrow A^Ty = 0$.
+\vspace{-3mm}
+\begin{gather*}
+A(A^TA)^{-1}A^Tv = A(A^TA)^{-1}A^T(x + y) = \\ = A\underbrace{(A^TA)^{-1}(A^TA)}_{E}\begin{pmatrix}\lambda_1 \\ \vdots \\ \lambda_k \end{pmatrix} + A(A^TA)^{-1}\underbrace{A^Ty}_{0} = \\ = A\begin{pmatrix}\lambda_1 \\ \vdots \\ \lambda_k \end{pmatrix} = x = pr_Sv.
+\end{gather*}
+
+\section*{25. Существование ортонормированного базиса в евклидовом пространстве. Описание всех ортонормированных базисов в терминах одного и матриц перехода. Дополнение ортогональной системы векторов до ортогонального базиса}
+\textbf{Теорема}. Во всяком (конечномерном) евклидовом пространстве существует ортонормированный базис.
+
+\textbf{Доказательство}. Так как квадратичная функция $(v,\ v)$ положительно определена, то существует базис, в котором она принимает нормальный вид. Этот базис и есть то, что нам требуется.
+
+Другими словами, всякую положительно определённую квадратичную форму можно привести к нормальному виду.
+
+\vspace{5mm}
+Пусть $(e_1, \ldots, e_n)$ --- ортонормированный базис в $\E$. Пусть также есть ещё один базис $(e_1', \ldots, e_n')$, причём $(e_1', \ldots, e_n') = (e_1, \ldots, e_n) \cdot C$.
+
+\textbf{Предложение}. $(e_1', \ldots, e_n')$ --- \textbf{ортонормирован} $\Longleftrightarrow C^TC = E$.
+
+\textbf{Доказательство}. $\me'$ --- ортонормированный базис $\Longrightarrow G(\me') = E$ с одной стороны (по определению ортонормированного базиса), а с другой $G(\me') = C^T\underset{=E}{G(\me)}C = C^TC$.
+
+\vspace{5mm}
+\textbf{Следствие}. Всякую ортогональную (соотв. ортонормированную) систему векторов можно дополнить до ортогонального (соотв. ортонормированного) базиса.
+
+\textbf{Доказательство}. Если $(e_1, \ldots, e_k)$ --- такая система, то искомым дополнением будет ортогональный (соотв. ортонормированный) базис в $\{e_1, \ldots, e_k\}^\bot$.
+
+\section*{26. Формула для ортогональной проекции вектора на подпространство в терминах его ортогонального базиса. Процесс ортогонализации Грама-Шмидта, явные формулы для каждого шага}
+Пусть $S \subseteq \E$ --- подпространство. $\me = (e_1, \ldots, e_k)$ --- ортогональный базис в $S$.
+
+\textbf{Предложение}. $\forall v \in \E:\ pr_Sv = \mathlarger{\sum}\limits_{i = 1}^{k}\dfrac{(v,\ e_i)}{(e_i,\ e_i)}e_i$.
+
+\textbf{Доказательство}. Представим $v$ в виде суммы $v = pr_Sv + ort_Sv$. Тогда:
+\vspace{-3mm}
+\[
+(v,\ e_i) = (pr_Sv,\ e_i) + \underset{=0}{(ort_Sv,\ e_i)} = (pr_Sv,\ e_i),\ \ \forall i = 1, \ldots, k.
+\]
+
+\vspace{-3mm}
+Также $pr_Sv = \mathlarger{\sum}\limits_{j = 1}^{k}\lambda_je_j$. Следовательно, $(v,\ e_i) = \mathlarger{\sum}\limits_{j = 1}^{k}\lambda_j(e_j,\ e_i)$. Учитывая, что базис $\me$ --- ортогональный, то все слагаемые кроме $j = i$ обнулятся, следовательно останется только $(v,\ e_i) = \lambda_i(e_i,\ e_i) \Longrightarrow \lambda_i = \dfrac{(v,\ e_i)}{(e_i,\ e_i)}$.
+
+\vspace{5mm}
+\textbf{Процесс ортогонализации Грама-Шмидта}.
+
+Пусть $(e_1, \ldots, e_k)$ --- линейно независимая система векторов.
+
+Метод Якоби: $\det G(e_1, \ldots, e_k) > 0$, где $i$-й угловой минор --- это $\det G(e_1, \ldots, e_i) > 0$.
+
+Применим результат --- ортогональный базис $(f_1, \ldots, f_k)$ в $\langle e_1, \ldots, e_k \rangle$ так, что ($*$):
+\vspace{-3mm}
+\begin{align*}
+f_1 &= e_1 \\
+f_2 &\in e_2 + \langle e_1 \rangle \\
+f_3 &\in e_3 + \langle e_1,\ e_2 \rangle \\[-0.3mm]
+\vdots \\[-0.3em]
+f_k &\in e_k + \langle e_1, \ldots, e_{k - 1} \rangle
+\end{align*}
+
+\textbf{Предложение}. $\forall i = 1, \ldots, k$:
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=-0.3em
+\item $f_i = ort_{\langle e_1, \ldots, e_{i - 1}\rangle}e_i$;
+\item $f_i = e_i - \mathlarger{\sum}\limits_{j = 1}^{i - 1}\dfrac{(e_i,\ f_j)}{(f_j,\ f_j)}f_j$; ($**$)
+\item $\det G(f_1, \ldots, f_i) = \det G(e_1, \ldots, e_i)$;
+\end{enumerate}
+
+\textbf{Доказательство}. Помним, что при ($*$) $\langle e_1, \ldots, e_i \rangle = \langle f_1, \ldots, f_i \rangle\ \forall i$
+\begin{enumerate}
+\itemsep=0em
+\item Распишем:
+\begin{gather*}
+f_i \in e_i + \langle e_1, \ldots, e_{i - 1} \rangle = e_i + \langle f_1, \ldots, f_{i - 1} \rangle \Rightarrow \\
+\Rightarrow f_i = e_i + h_i,\ \text{где } h_i \in \langle f_1, \ldots, f_{i - 1} \rangle \Rightarrow \\
+\Rightarrow e_i = \underset{ort}{f_i} - \underset{pr}{h_i}
+\end{gather*}
+Так как $f_i \in \langle f_1, \ldots, f_{i - 1} \rangle^\bot$, то
+\[
+f_i = ort_{\langle f_1, \ldots, f_{i - 1} \rangle}e_i = ort_{\langle e_1, \ldots, e_{i - 1} \rangle} e_i
+\]
+\item $f_i = ort_{\langle f_1, \ldots, f_{i - 1}\rangle}e_i = e_i - pr_{\langle f_1, \ldots, f_{i - 1}\rangle}e_f = e_i - \mathlarger{\sum}\limits_{j = 1}^{i - 1}\dfrac{(e_i,\ f_j)}{(f_j,\ f_j)}f_j$ (по предыдущему)
+\item Следует из того, что $G(f_1, \ldots, f_i) = C^T G(e_1, \ldots, e_i)C$, где $C$ --- верхнетреугольная с единицами на диагонали, следоавтельно $\det C = 1$.
+\end{enumerate}
+
+Построение ортогонального базиса $f_1, \ldots, f_k$ (по формулам ($**$)) называется методом (процессом) ортогонализации Грама-Шмидта.
+
+\section*{27. Теорема о расстоянии от точки до подпространства в евклидовом пространстве. Явная формула для расстояния в терминах определителей матриц Грама}
+Пусть $x \in \E$, $S \subseteq \E$ --- подпространство.
+
+\textbf{Теорема}. $\rho (x,\ S) = |ort_Sx|$, причём $pr_Sx$ является единственной ближайшей к $x$ точной из $S$.
+
+\textbf{Доказательство}.
+
+$y := pr_Sx,\ z := ort_Sx,\ x = y + z$.
+
+Пусть теперь $y' \in S,\ y \neq 0$. Покажем, что $\rho(x,\ y + y') > \rho(x,\ y)$.
+
+$\rho(x,\ y + y')^2 = |\underbrace{x - y}_{z} - y'|^2 = |\underset{\in S^\bot}{z} - \underset{\in S}{y'}|^2 \underset{\text{по т. Пифагора}}{=} |z|^2 + |y'|^2 > |z|^2 = \rho(x,\ y)^2$.
+
+\vspace{5mm}
+$S \subseteq \E$ --- подпространство, $x \in S$, $\me = (e_1, \ldots, e_k)$ --- базис.
+
+\textbf{Теорема}. $\rho(x,\ S)^2 = \dfrac{\det G(e_1, \ldots, e_k, x)}{\det G(e_1, \ldots, e_k)}$.
+
+\textbf{Доказательство}.
+\vspace{-3mm}
+\begin{enumerate}[(1)]
+\itemsep=0em
+\item $x \in S \Longrightarrow \rho(x,\ S) = 0$ и $\det G(e_1, \ldots, e_k, x) = 0$, т.к. $e_1, \ldots, e_k, x$ --- линейно зависимы
+\item $x \not \in S \Longrightarrow$ Положим $z := ort_Sx$. \\
+Тогда $\rho(x,\ S) = |z|$ --- уже знаем.
+
+Применим ортогонализацию Грама--Шмидта к $e_1, \ldots, e_k, x$: получим систему $f_1, \ldots, f_k, z$.
+
+Но при ортогонализации определитель матрицы Грама не меняется $\Longrightarrow \dfrac{\det G(e_1, \ldots, e_k, x)}{\det G(e_1, \ldots, e_k)} = \dfrac{\det G(f_1, \ldots, f_k, z)}{\det G(f_1, \ldots, f_k)} = \dfrac{|f_1|^2 \ldots |f_k|^2 |z|^2}{|f_1^2| \ldots |f_k|^2} = |z|^2 = \rho(x,\ S)^2$.
+\end{enumerate}
+
+\section*{28. Метод наименьших квадратов для несовместных систем линейных уравнений: постановка задачи и её решение. Единственность псевдорешения и явная формула для него в случае линейной независимости столбцов матрицы коэффициентов}
+\textit{Метод наименьших квадратов}:
+
+Имеем СЛУ($*$) $Ax = b$, где $A \in \text{Mat}_{m \times n},\ x \in \R^n$ --- вектор неизвестных, $b \in \R^m$.
+
+$x_0 \in \R^n$ --- решение СЛУ($*$) $\Leftrightarrow$ $Ax_0 = b$ $\Leftrightarrow$ $Ax_0 - b = 0$ $\Leftrightarrow$ $|Ax_0 - b| = 0$ (где $\R^n$ рассматривается как евклидово пространство со стандартным скалярным произведением) $\Leftrightarrow$ $\rho(Ax_0,\ b) = 0$.
+
+В случае, когда СЛУ(*) несовместна, набор $x_0 \in \R^n$ (вектор-столбец) называется \textbf{псевдорешением}, если $\rho(Ax_0,\ b) = \min\rho(Ax,\ b)$.
+
+\vspace{5mm}
+Пусть $S \subseteq \R^n$ --- подпространство, натянутое на столбцы матрицы $A$, то есть $S = \langle A^{(1)}, \ldots, A^{(n)} \rangle$.
+
+\textbf{Предложение 1}. $x_0$ --- псевдорешение для ($*$) тогда и только тогда, когда $x_0$ --- решение для СЛУ $Ax = pr_Sb$.
+
+\textbf{Предложение 2}. Если столбцы матрицы $A$ --- линейно независимы, то псевдорешение единственно и может быть найдено по формуле $x_0 = (A^TA)^{-1}A^Tb$.
+
+\vspace{5mm}
+\textbf{Доказательство 1}. Так как $Ax = x_1A^{(1)} + x_2A^{(2)} + \ldots + x_nA^{(n)}$, то $\{Ax\ |\ x  \in \R^n\} = S$. Следовательно, $\rho(\{Ax\ |\ x \in \R^n\},\ b) = \rho(S,\ b)$.
+
+По теореме о расстоянии о точки до плоскости искомый минимум достигается в точке $x_0$, для которой $A_{x_0} = or_Sb$.
+
+\textbf{Доказательство 2}. Так как столбцы $A^{(1)}, \ldots, A^{(n)}$ --- линейно независимы, то они образуют базис в $S \Longrightarrow \exists! x_0: A_{x_0} = pr_Sb$.
+
+Так как $pr_Sb = A(A^TA)^{-1}A^Tb$, то $x_0 = (A^TA)^{-1}A^Tb$ является решением для СЛУ $Ax = pr_Sb$.
+
+\section*{29. Две формулы для объёма параллелепипеда: в терминах определителя матрицы Грама и в терминах координат в ортонормированном базисе}
+Пусть $a_1, \ldots, a_k$ --- базис пространства $\E$. $P$ --- $k$-мерный параллелепипед.
+
+\textbf{Теорема}. $volP(a_1, \ldots, a_k)^2 = \det G(a_1, \ldots, a_n)$.
+
+\textbf{Доказательство}. Индукция по $k$:
+
+$\underline{k = 1}$: $|a_1|^2 = (a_1,\ a_1)$ --- верно.
+$\underline{k > 1})$: имеем $volP(a_1, \ldots, a_k)^2 = volP(a_1, \ldots, a_{k - 1})^2|h|^2 = \det G(a_1, \ldots, a_{k - 1})|h|^2 = (*)$.
+\vspace{-3mm}
+\begin{itemize}
+\itemsep=0em
+\item Если $a_1, \ldots, a_{k - 1}$ линейно независимы, то $|h|^2 = \dfrac{\det G(a_1, \ldots, a_k)}{\det G(a_1, \ldots, a_{k - 1})} \Rightarrow$ \\
+$\Rightarrow (*) = \det G(a_1, \ldots, a_k)$.
+\item Если $a_1, \ldots, a_{k - 1}$ --- линейно зависимы, то $\det G(a_1, \ldots, a_{k - 1}) = 0 \Rightarrow volP(a_1, \ldots, a_k) = 0 = (*)$. Но $\det G(a_1, \ldots, a_k) = 0$, так как $a_1, \ldots, a_k$ --- линейно зависимы
+\end{itemize}
+
+\vspace{5mm}
+\textbf{Теорема}. $volP(a_1, \ldots, a_n) = |\det A|$.
+Пусть $\me = (e_1, \ldots, e_n)$ --- ортонормированный базис в $\E$.
+
+$(a_1, \ldots, a_n) = (e_1, \ldots, e_n) A$, $a \in \text{M}_n(\R)$.
+
+\textbf{Доказательство}. $G(a_1, \ldots, a_n) = A^T \underbracket{G(e_1, \ldots, e_n)}_{E}A \Rightarrow volP(a_1, \ldots, a_n)^2$
+
+$= \det G(a_1, \ldots, a_n) = (\det A)^2$.
+
+\section*{30. Связь смешанного произведения с векторным и скалярным в трёхмерном евклидовом пространстве. Антикоммутативность и билинейность векторного произведения. Формула для вычисления векторного произведения в терминах координат в правом ортонормированном базисе}
+\textbf{Теорема}. $\forall a, b, c \in \R^3:\ (a, b, c) = (a, [b, c])$
+
+\textbf{Доказательство}.
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=0em
+\item $b,\ c$ --- пропорциональны $\Longrightarrow [b,\ c] = 0 \Longrightarrow \begin{cases*}
+\text{левая часть} = 0 \\
+\text{правая часть} = 0
+\end{cases*}$
+\item $b,\ c$ --- не пропорциональны $\Longrightarrow$ положим $d = [b,\ c]$.
+\vspace{-3mm}
+\begin{gather*}
+(a,\ [b,\ c]) = (a,\ d) = (pr_{\langle d \rangle}a,\ d) = (ort_{\langle b,\ c \rangle}a,\ d) = \begin{cases*}
+|ort_{\langle b,\ c \rangle}a|\underset{volP(b,\ c)}{|d|},\ \text{если} (a,\ b,\ c) > 0, \\
+-|ort_{\langle b,\ c \rangle}a||d|,\ \text{если} (a,\ b,\ c) < 0 \\
+\end{cases*} = \\
+= Vol(a,\ b,\ c) = (a,\ b,\ c).
+\end{gather*}
+\end{enumerate}
+
+\textbf{Предложение}.
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=-0.3em
+\item $[a,\ b] = -[b,\ a]\ \forall a,\ b$ --- антикоммутативность
+\item $[\cdot,\ \cdot]$ линейна по каждому аргументу \\
+$[\lambda_1 a_1 + \lambda_2 a_2,\ b] = \lambda_1[a_1,\ b] + \lambda_2[a_2,\ b]$ \\
+$[a,\ \mu_1b_1 + \mu_2b_2] = \mu_1[a,\ b_1] + \mu_2[a,\ b_2]$
+\end{enumerate}
+
+\textbf{Доказательство}.
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=0em
+\item Ясно из определения
+\item
+\begin{gather*}
+\forall x (x,\ [\lambda_1a_1 + \lambda_2a_2,\ b]) = (x,\ \lambda_1a_1 + \lambda_2a_2,\ b) = \\ = \lambda_1(x,\ a_1,\ b) + \lambda_2(x,\ a_2,\ b) = \lambda_1(x,\ [a_1,\ b]) + \lambda_2(x,\ [a_2,\ b]) = \\ = (x,\ \lambda_1[a_1,\ b] + \lambda_2[a_2,\ b]).
+\end{gather*}
+Так как $\forall y = (e_1,\ y)e_1 + (e_2,\ y)e_2 + (e_3,\ y)e_3$ для $(e_1,\ e_2,\ e_3)$ --- ортонормированного базиса $\Longrightarrow [\lambda_1a_1 + \lambda_2a_2,\ b] = \lambda_1[a_1,\ b] + \lambda_2[a_2,\ b]$. Линейность по второму аргументу аналогична.
+\end{enumerate}
+
+\vspace{5mm}
+Пусть $(e_1, e_2, e_3)$ --- ортонормированный базис.
+\vspace{-2mm}
+\begin{align*}
+a &= a_1e_1 + a_2e_2 + a_3e_3 \\
+b &= b_1e_1 + b_2e_2 + b_3e_3
+\end{align*}
+
+\vspace{-2mm}
+Тогда формула для вычисления векторного произведения выглядит так:
+\vspace{-2mm}
+\begin{align*}
+[a,\ b] =
+\begin{vmatrix}
+e_1 & e_2 & e_3 \\
+a_1 & a_2 & a_3 \\
+b_1 & b_2 & b_3
+\end{vmatrix} =
+e_1
+\begin{vmatrix}
+a_2 & a_3 \\
+b_2 & b_3
+\end{vmatrix}
+- e_2
+\begin{vmatrix}
+a_1 & a_3 \\
+b_1 & b_3
+\end{vmatrix}
++ e_3
+\begin{vmatrix}
+a_1 & a_2 \\
+b_1 & b_2
+\end{vmatrix} = \\
+= (a_2b_3 - b_2a_3)e_1 - (a_1b_3 - b_1a_3)e_2 + (a_1b_2 - b_1a_2)e_3 = \\
+= \underline{((a_2b_3 - b_2a_3),\ (b_1a_3 - a_1b_3),\ (a_1b_2 - b_1a_2))}
+\end{align*}
+
+\textbf{Доказательство}.
+\vspace{-3mm}
+\begin{gather*}
+[a_1e_1 + a_2e_2 + a_3e_3,\ b_1e_1 + b_2e_2 + b_3e_3] = \\
+= a_1[e_1,\ b_1e_1 + b_2e_2 + b_3e_3] + a_2[e_2,\ b_1e_1 + b_2e_2 + b_3e_3] + a_3[e_1,\ b_1e_1 + b_2e_2 + b_3e_3] = \\
+= a_1(b_1[e_1,\ e_2] + b_2[e_1,\ e_2] + b_3[e_1,\ e_3]) + \\
++ a_2(b_1[e_2,\ e_1] + b_2[e_2,\ e_2] + b_3[e_2,\ e_3]) + \\
++ a_3(b_1[e_3,\ e_1] + b_2[e_3,\ e_2] + b_3[e_3,\ e_3]) = \\
+a_1b_1[e_1,\ e_1] + a_1b_2[e_1,\ e_2] + a_1b_3[e_3,\ e_3] + \\ + a_2b_1[e_2,\ e_1] + a_2b_2[e_2,\ e_2] + a_2b_3[e_2,\ e_3] + \\ + a_3b_1[e_3,\ e_1] + a_3b_2[e_3,\ e_2] + a_3b_3[e_3,\ e_3]
+\end{gather*}
+
+В результате, подставив вычисления $[e_2,\ e_3] = e_1$ и $[e_3,\ e_2] = -e_1$, получим искомую формулу.
+
+\section*{31. Формула для двойного векторного произведения в трехмерном евклидовом пространстве}
+\textbf{Предложение}. $[a,\ [b,\ c]] = (a,\ c)b - (a,\ b)c$.
+
+\textbf{Доказательство}.
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=0em
+\item $b,\ c$ --- пропорциональны $\Longrightarrow$ можем считать $c = \lambda b$ \\
+Правая часть $= (a,\ \lambda b)b - (a,\ b)\lambda b = 0$
+\item $b,\ c$ --- не пропорциональны \\
+Выберем правый ортонормированный базис $e_1,\ e_2,\ e_3$ так, чтобы
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=-0.3em
+\item $b$ пропорционален $e_1$
+\item $\langle b,\ c \rangle = \langle e_1,\ e_2 \rangle$
+\end{enumerate}
+\vspace{-3mm}
+Тогда $b = \beta e_1,\ c = \gamma_1 e_1 + \gamma_2 e_2,\ a = \alpha_1e_1 + \alpha_2e_2 + \alpha_3e_3$. \\
+$[b,\ c] = [\beta e_1,\ \gamma_1e_1 + \gamma_2e_2] = \beta\gamma_2e_3$ \\
+Левая часть $= [a,\ [b,\ c]] = [\alpha_1e_1 + \alpha_2e_2 + \alpha_3e_3,\ \beta\gamma_2e_3] = -\alpha_1\beta\gamma_2e_2 + \alpha_2\beta\gamma_2e_1$ \\
+Правая часть $= (\alpha_1\gamma_1 + \alpha_2\gamma_2)\beta e_1 - \alpha_1\beta(\gamma_1e_1 + \gamma_2e_2) = \alpha_2\gamma_2\beta e_1 - \alpha_1\beta\gamma_2 e_2 =$ левая часть. 
+\end{enumerate}
+
+\section*{32. Линейные многообразия как сдвиги подпространств. Критерий равенства двух линейных многообразий}
+\textbf{Предложение}. $L \subseteq \R^n$ --- непустое множество $\Rightarrow L$ --- линейное многообразие $\Rightarrow L = v_0 + S$ для некоторых $v_0 \in L$ и подпространства $S \subseteq \R^n$.
+
+\textit{Замечание}. Из предложения следует, что линейные многообразия --- в точности сдвиги подпространств в $\R^n$.
+
+\textbf{Доказательство}.
+
+\circled{$\Rightarrow$} Ясно и очевидно
+
+\circled{$\Leftarrow$} $L = v_0 + S$.
+
+Так как $S$ --- подпространство, то существует ОСЛУ $Ax = 0$, такая что $S$ есть ее множество решений.
+
+Тогда $L$ есть множество решений СЛУ $Ax = A_{v_0}$.
+
+\vspace{5mm}
+Пусть $L_1 = v_1 + S_1$ и $L_2 =v_2 + S_2$ --- два линейных многообразия.
+
+\textbf{Предложение}. $L_1 = L_2 \Longleftrightarrow 
+\begin{cases*}
+S_1 = S_2\ (= S) \\
+v_1 - v_2 \in S
+\end{cases*}$
+
+\textbf{Доказательство}.
+
+\circled{$\Leftarrow$} Очевидно
+
+\circled{$\Rightarrow$} $L_1 = L_2$: $v_1 = v_1 + 0 \in v_2 + S_2 \Rightarrow v_1 - v_2 \in S_2$.
+
+Аналогично $v_1 - v_2 \in S_1 \Rightarrow v_1 - v_2 \in S_1 \cap S_2$.
+
+$v \in S_1 \Rightarrow v_1 + v \in v_2 + S_2 \Rightarrow v \in (v_2 - v_1) + S_2 \subseteq S_2$.
+
+Отсюда $S_1 \cap S_2$. Аналогично $S_2 \subseteq S_1 \Longrightarrow S_1 = S_2\ (= S)$ и $v_1 - v_2 \in S$.
+
+\section*{33. Теорема о плоскости, проходящей через $k + 1$ точку в $\R^n$}
+\textbf{Теорема}.
+\begin{enumerate}
+\itemsep=0em
+\item Через любые $k + 1$ точек в $\R^n$ проходит плоскость размерности $\leqslant k$.
+\item Если $k + 1$ точек не лежат в плоскости размерности $< k$, то через них проходит ровно одна плоскость размерности $k$.
+\end{enumerate}
+
+\textbf{Доказательство}.
+\vspace{-3mm}
+\begin{enumerate}
+\itemsep=0em
+\item Пусть $v_0, \ldots, v_k$ --- наши точки. \\
+Тогда они все лежат в плоскости $P = v_0 + \langle (v_1 - v_0), (v_2 - v_0), \ldots, (v_k - v_0) \rangle,\ \dim P = \dim S \leqslant k$.
+\item В этом случае $\dim P = k \Longrightarrow \dim S = k \Longrightarrow v_1 - v_0, \ldots, v_k - v_0$ линейно независимы. \
+$(v_1 - v_0), \ldots, (v_k - v_0)$ лежат в направляющем подпространстве любой плоскости, проходящей через $v_0, \ldots, v_k \Longrightarrow P$ --- единственная плоскость размерности $k$ с требуемым свойством.
+\end{enumerate}
+
+\section*{34. Инвариантность определителя матрицы линейного оператора относительно замены базиса. Критерий обратимости линейного оператора в терминах его ядра, образа и определителя. Связь спектра линейного оператора с его характеристическим многочленом}
+Пусть $\varphi$ --- линейный оператор.
+
+\textbf{Следствие}. $\det A(\varphi,\ \,e)$ не зависит от выбора базиса $\me$.
+
+\textbf{Доказательство}. $\det A' = \det (C^{-1}AC)$ --- очевидно, так как $\det C^{-1} = \det C = 1$.
+
+\vspace{5mm}
+\textbf{Теорема} (критерий обратимости). Для $\varphi \in L(V)$ следующие условия эквивалентны:
+\vspace{-3mm}
+\begin{enumerate}
+    \itemsep=-0.3em
+    \item $\text{Ker}\varphi = \{0\}$
+    \item $\text{Im}\varphi = V$
+    \item $\varphi$ обратим (т.е. $\varphi$ --- изоморфизм $V$ на себя)
+    \item $\det\varphi \neq 0$
+\end{enumerate}
+
+\textbf{Доказательство}. 
+
+\roundrect{$1 \Leftrightarrow 2$} Так как $\dim V = \dim\Ker\varphi + \dim\Im\varphi$.
+
+\roundrect{$1 \& 2 \Leftrightarrow 3$} Очевидно
+
+\roundrect{$2 \Leftrightarrow 4$} $\Im\varphi = V \Leftrightarrow \rk\varphi = \dim V \Leftrightarrow \det\varphi \neq 0$.
+
+\vspace{5mm}
+\textbf{Утверждение}. $\lambda \in \text{Spec}\varphi \Leftrightarrow \chi_\psi\varphi(\lambda) = 0$, то есть $\lambda$ --- корень характеристического многочлена.
+
+\textbf{Доказательство}. Докажем аналогичное утверждение, из которого следует текущее:
+
+$\lambda \in \text{Spec}\varphi \Leftrightarrow \det(\varphi - \lambda\text{Id}) = 0$.
+
+$\lambda \in \text{Spec}\varphi \Leftrightarrow V_\lambda(\varphi) \neq \{0\} \Leftrightarrow \Ker(\varphi - \lambda\text{Id}) \neq \{0\} \Leftrightarrow \det(\varphi - \lambda\text{Id}) = 0$.
+
+
+\section*{35. Связь между алгебраической и геометрической кратностями собственного значения линейного оператора}
+\textbf{Предложение}. Пусть $\lambda \in \text{Spec}\varphi \Longrightarrow$ (геом. кратность $\lambda$) $\leqslant$ (алг. кратность $\lambda$)
+
+\textbf{Доказательство}. Пусть $d_\lambda$ --- геометрическая кратность $= \dim V_\lambda(\varphi)$.
+
+Выберем базис $(e_1, \ldots, e_{d_\lambda})$ в $V_\lambda(\varphi)$ и дополним его до базиса $\me = (e_1, \ldots, e_n)$ всего пространства $V$.  Тогда $A(\varphi,\ \me)$ имеет вид:
+\[
+A(\varphi,\ \me) =
+\left(\begin{tabular}{ccc|ccc}
+$\lambda$ & $\cdots$ & 0         &         & &         \\
+$\vdots$  & $\ddots$ & 0         &         & $B$ &         \\
+0         & $\cdots$ & $\lambda$ &         & &         \\ \hline
+&  &          &         & &         \\
+& 0 &   & & $D$ & \\
+&  &          &         &  & 
+\end{tabular}\right),\ \ \text{количество } \lambda = d_\lambda
+\]
+\vspace{-3mm}
+Тогда
+\vspace{-3mm}
+\begin{gather*}
+\chi_\varphi(t) =
+\left|\begin{tabular}{ccc|ccc}
+$\lambda - t$ & $\cdots$ & 0         &         & &         \\
+$\vdots$  & $\ddots$ & 0         &         & $B$ &         \\
+0         & $\cdots$ & $\lambda - t$ &         & &         \\ \hline
+&  &          &         & &         \\
+& 0 &   & & $D - tE$ & \\
+&  &          &         &  & 
+\end{tabular}\right| = \\ = (-1)^n(\lambda - t)^{d_\lambda}\det(D - tE) = (-1)^{n - d_\lambda}(t - \lambda)^{d_\lambda}\det(D - tE)
+\end{gather*}
+
+Отсюда, (алг. кратн.) $\geqslant d_\lambda =$ (геом. кратн.).
+
+\section*{36. Линейная независимость собственных подпространств линейного оператора, отвечающих попарно различным собственным значениям. Диагонализуемость линейного оператора, у которого число корней характеристического многочлена равно размерности пространства}
+
+\textbf{Определение}. $v_1, \ldots, v_s$ --- линейно независимы $\Longleftrightarrow \forall v_1 \in V_1, \ldots, v_s \in V_s$ из условия $v_1 + \ldots + v_s = 0$ следует $v_1 = \ldots = v_s = 0$.
+
+\vspace{5mm}
+Пусть $\{\lambda_1, \ldots, \lambda_s\} \subseteq \text{Spec}\varphi,\ \lambda_i \neq \lambda_j\ \forall i,\ j$.
+
+\textbf{Предложение}. Подпространства $V_{\lambda_1}(\varphi), \ldots, V_{\lambda_s}(\varphi)$ --- линейно независимы.
+
+\textbf{Доказательство}. 
+
+$\underline{s = 1}$: очевидно.
+
+Пусть доказано для всех $< s$, докажем для $\underline{s}$:
+
+Пусть $v_1 \in V_{\lambda_1}(\varphi), \ldots, v_s \in V_{\lambda_s}(\varphi)$ и $v_1 + \ldots + v_s = 0$ ($*$) $\Longrightarrow \varphi(v_1) + \ldots + \varphi(v_s) = \varphi(0) = 0$ $\Longrightarrow \lambda_1v_1 + \ldots + \lambda_sv_s = 0$
+
+Вычтем ($*$), умноженное на $\lambda_s$: $(\lambda_1 - \lambda_s)v_1 + \ldots + (\lambda_{s - 1} - \lambda_s)v_{s - 1} = 0$.
+
+Так как $\lambda_i \neq \lambda_s$ при $i \neq s$, то по предположению индукции получаем: $v_1 = \ldots = v_{s - 1} = 0$. Тогда ($*$) влечет $v_s = 0$.
+
+\vspace{5mm}
+\textbf{Следствие}. Если $\chi_\varphi(t)$ имеет ровно $n$ попарно различных корней, то $\varphi$ --- диагонализуем.
+
+\textbf{Доказательство}. Пусть $\text{Spec}\varphi = \{\lambda_1, \ldots, \lambda_n\},\ \lambda_i \neq \lambda_j$ при $i \neq j$. В каждом $V_{\lambda_i}(\varphi)$ возьмем ненулевой вектор $v_i$, тогда по предыдущему предложению векторы $v_1, \ldots, v_n$ --- линейно независимы $\Longrightarrow v_1, \ldots, v_n$ --- базис из собственных векторов $\Longrightarrow \varphi$ --- диагонализуем.
+
+\section*{37. Два критерия диагонализуемости линейного оператора}
+\textbf{Теорема}. Линейный оператор $\varphi$ диагонализуем $\Longleftrightarrow$ выполнены следующие два условия:
+\vspace{-3mm}
+\begin{enumerate}
+    \itemsep=0em
+    \item $\chi_\varphi(t)$ разлагается на линейные множители
+    \item $\forall \lambda \in \text{Spec}\varphi$ (геом. кратн.) = (алг. кратн.)
+\end{enumerate}
+
+\textbf{Доказательство}. 
+
+\circled{$\Rightarrow$} $\varphi$ диагонализуем $\rightarrow$ существует базис $\me = (e_1, \ldots, e_n)$ такой, что
+
+$A(\varphi,\ \me) = \text{diag}(\mu_1, \ldots, \mu_n) = 
+\begin{pmatrix}
+\mu_1 &        & 0 \\[-0.5em]
+      & \ddots &   \\[-0.5em]
+  0   &        & \mu_n
+\end{pmatrix}$
+
+Тогда $\chi_\varphi(t) = (-1)^n 
+\begin{vmatrix}
+\mu_1 - t &        & 0 \\[-0.5em]
+      & \ddots &   \\[-0.5em]
+  0   &        & \mu_n - t
+\end{vmatrix} = (t - \mu_1)(t - \mu_2)\ldots(t - \mu_n) \Rightarrow $ условие 1.
+
+Теперь перепишем $\chi_\varphi(t)$ в виде $\chi_\varphi(t) = (t - \lambda_1)^{k_1}\ldots(t - \lambda_s)^{k_s}$, где $\lambda_i \neq \lambda_j$ при $i \neq j$ и $\{\lambda_1, \ldots, \lambda_s\} = \{\mu_1, \ldots, \mu_n\}$.
+
+Тогда $\forall i = 1, \ldots, s:\ V_{\lambda_i}(\varphi) \equiv \langle e_i\ |\ \mu_i = \lambda_i \rangle \Rightarrow \underset{\text{геом. кр.}}{\dim V_{\lambda_i}(\varphi)} \geqslant \underset{\text{алг. кр.}}{k_i} \Rightarrow$ (геом. кр.) $=$ (алг. кр.) $\Rightarrow$ условие 2.
+
+\circled{$\Leftarrow$} Пусть $\chi_\varphi(t) = (t - \lambda_1)^{k_1}\ldots(t - \lambda_s)^{k_s}$, где $\lambda_i \neq \lambda_j$ при $i \neq j$.
+
+Из условия 2 получаем, что $\dim V_{\lambda_i}(\varphi) = k$. Так как $V_{\lambda_i}(\varphi), \ldots, V_{\lambda_s}(\varphi)$ --- линейно независимы, то $\dim (V_{\lambda_1}(\varphi) + \ldots + V_{\lambda_s}(\varphi)) = \dim V_{\lambda_1}(\varphi) + \ldots + V_{\lambda_s}(\varphi) = k_1 + \ldots + k_s = n \Rightarrow V_{\lambda_1}(\varphi) + \ldots + V_{\lambda_s}(\varphi) = V \Rightarrow V = V_{\lambda_1}(\varphi) \oplus \ldots \oplus V_{\lambda_s}(\varphi)$.
+
+$\forall i = 1, \ldots, s$ пусть $\me_i$ --- базис в $V_{\lambda_i}(\varphi)$, тогда $\me_1 \cup \ldots \cup \me_s$ --- базис $V$ --- он состоит из собственных векторов $\Rightarrow$ $\varphi$ --- диагонализуем.
+
+\section*{38. Существование одномерного или двумерного инвариантного подпространства для линейного оператора в векторном пространстве над $\R$}
+\textbf{Теорема}. Если $F = \R$, то $\forall \varphi \in L(V)$ существует либо одномерное, либо двумерное $\varphi$-инвариантное подпространство.
+
+\textbf{Доказательство}.
+\vspace{-3mm}
+\begin{enumerate}
+    \itemsep=0em
+    \item $\chi_\varphi(t)$ имеет действительные корни $\Rightarrow$ есть собственные векторы $\Rightarrow$ есть одномерное $\varphi$-инвариантное подпространство.
+    \item $\chi_\varphi(t)$ не имеет действительных корней. \\
+    Пусть $\lambda + i\mu$ --- комплексный корень $\chi_\varphi(t),\ \lambda, \mu \in \R,\ \mu \neq 0$. \\
+    Выберем базис $\me = (e_1, \ldots, e_n)$ в $V$. Пусть $A = A(\varphi,\ \me)$. Над $\me$ у $\varphi$ есть собственный вектор $\Rightarrow$ существует $u \in \R^n$ и $v \in \R^n$, такие что $A(u + iv) = (\lambda + i\mu)(u + iv) = (\lambda u - \mu v) + i(\mu u + \lambda v)$. \\
+    Также $A(u + iv) = Au + iAv$. \\
+    Отделив действительные и мнимые части, получаем: $\begin{cases*}
+    Au = \lambda u - \mu v, \\
+    Av = \mu u + \lambda v
+    \end{cases*}$. \\
+    Пусть $x \in V$ --- вектор с координатами $u$, а $u \in V$ --- вектор с координатами $v$. \\
+    Тогда $\begin{cases*}
+    \varphi(x) = \lambda x - \mu y, \\
+    \varphi(y) = \mu x + \lambda y
+    \end{cases*} \Rightarrow U = \langle x,\ y \rangle$ --- $\varphi$-инвар. подпространство и $\dim U \leqslant 2$.
+\end{enumerate}
+
+\section*{39. Линейный оператор в евклидовом пространстве, сопряжённый к данному: определение, существование, единственность. Матрица сопряженного оператора в произвольном и ортонормированном базисах}
+\textbf{Определение}. Линейный оператор $\psi \in L(\E)$ называется \textbf{сопряженным} к $\varphi$, если $(x,\ \varphi(y)) = (\psi(x),\ y)\ \forall x, y \in \E$.
+
+$\beta_\varphi = \beta_\psi^T$
+
+\textbf{Предложение}.
+\vspace{-3mm}
+\begin{enumerate}
+    \itemsep=0em
+    \item $\psi$ существует, причём единственно.
+    \item если $\me$ --- ортонормированный базис в $\E$, то $A_\psi = A_\varphi^T$, где $A_\varphi = A(\varphi,\ \me),\ A_\psi = A(\psi,\ \me)$.
+\end{enumerate}
+
+\textbf{Доказательство}. Пусть $\me$ --- базис в $\E$. $G = G(e_1, \ldots, e_n)$.
+
+$B(\beta_\varphi^T,\ \me) = A_\psi^T G$
+
+$B(\beta_\varphi,\ \me) = GA_\psi$
+
+$A_\psi^TG = GA_\varphi \Leftrightarrow GA_\psi = A_\varphi^TG\ (G = G^T) \Leftrightarrow A_\psi = G^{-1}A_\varphi^TG$. Отсюда следует существование и единственность $\psi$.
+
+Если $\me$ --- ортонормированный базис, то $G = E \Rightarrow A_\varphi = A_\varphi^T$.
+
+\section*{40. Самосопряженный линейный оператор в евклидовом пространстве: инвариантность ортогонального дополнения к инвариантному подпространству и существование собственного вектора}
+\textbf{Предложение}. $\varphi = \varphi^*,\ U \in \E$ --- $\varphi$-инвариантное подпространство $\Rightarrow$ $U^\bot$ --- тоже $\varphi$-инвариантное подпространство.
+
+\textbf{Доказательство}.
+
+Имеем $\varphi(U) \in U$.
+
+Хотим $\varphi(U^\bot) \in U^\bot$.
+\vspace{-3mm}
+\[
+\forall x \in U,\ \forall y \in U^\bot: (\underset{\in U}{x},\ \varphi(y)) = (\underset{\in U}{\varphi(x)},\ \underset{\in U^T}{y}) = 0
+\]
+
+\textbf{Предложение}. $\varphi = \varphi^* \Rightarrow$ в $\E$ существует собственный вектор.
+
+\textbf{Доказательство}.
+Знаем существование либо $\begin{cases*}
+\text{1-мерного $\varphi$-инвариантного подпространства}, \\
+\text{2-мерного $\varphi$-инвариантного подпространства}
+\end{cases*}$
+\vspace{-3mm}
+\begin{enumerate}
+    \itemsep=0em
+    \item Ок
+    \item $U \in \E$ --- $\varphi$-инвариантное подпространство, $\dim U = 2$. \\
+    Фиксируем $\me = (e_1, \ldots, e_n)$ --- ортонормированный базис в $U$. \\
+    $\psi := \varphi|_U,\ \psi = \psi^*$. \\
+    $\triangle = \triangle(\varphi,\ \me) \Rightarrow \triangle = \begin{pmatrix}
+    a & b \\
+    b & c
+    \end{pmatrix}$. \\
+    $\chi_\psi(t) = (-1)^2\begin{vmatrix}
+    a - t & b \\
+    b & c - t
+    \end{vmatrix} = t^2 - (a + c)t + ac - b^2$. \\
+    $D = (a + c)^2 - 4(ac - b^2) = (a - c)^2 + ab^2 \geqslant 0 \Rightarrow \chi_\psi(t)$ имеет действительные корни $\Rightarrow$ у $\psi$ есть собственный вектор $\Rightarrow$ у $\varphi$ также есть собственный вектор.
+\end{enumerate}
+
+\section*{41. Самосопряженный линейный оператор в евклидовом пространстве: существование ортонормированного базиса из собственных векторов, ортогональность собственных подпространств, отвечающих различным собственным значениям. Приведение квадратичной формы к главным осям}
+\textbf{Теорема}. $\varphi = \varphi* \Rightarrow$ в $\E$ есть ортонормированный базис из собственных векторов. В частности, $\varphi$ диагонализуем над $\R$ и $\chi_\psi\varphi(t)$ разлагается на линейные множители.
+
+\textbf{Доказательство}. Индукция по $n$.
+
+$\underline{n = 1}$: ясно.
+
+$\underline{n > 1}$: существует собственный вектор $v$.
+
+Предположим $e_1 = \dfrac{v}{|v|},\ U = \langle e_1 \rangle$. $U$ --- $\varphi$-инвариантное подпространство $U^\bot$ --- тоже $\varphi$-инвариантно.
+
+$\dim U^\bot = n - 1 \Rightarrow$ по предположению индукции в $U^\bot$ существует ортонормированный базис $e_1, \ldots, e_n$ из собственных векторов. Тогда $(e_1, \ldots, e_n)$ --- искомый ортонормированный базис.
+
+\vspace{5mm}
+\textbf{Следствие}. $\varphi = \varphi^*,\ \lambda, \mu \in \text{Spec}\varphi,\ \lambda \neq \mu \Rightarrow \E_{\lambda}(\varphi) \bot \E_{\mu}(\varphi)$.
+
+\textbf{Доказательство}. Пусть $e_1, \ldots, e_n$ --- ортонормированный базис из собственных векторов: $\varphi(e_i) = \lambda e_i$.
+
+$v = x_1e_1 + \ldots + x_ne_n \Rightarrow \varphi(v) = x_1\lambda_1e_1 + \ldots + x_n\lambda_ne_n$.
+
+$\varphi(v) = \lambda v \Leftrightarrow v \in \langle x_i\lambda_ie_i =\lambda \rangle \Rightarrow \E_{\lambda}(\varphi)\bot\E_{\mu}(\varphi)$ при $\lambda \neq \mu$.
+
+\vspace{5mm}
+\textbf{Следствие} (приведение кв. ф. к главным осям). Для любой квадратичной формы $Q: \E \rightarrow \R$ существует ортонормированный базис $\me = (e_1, \ldots, e_n)$, такой что в нём $Q$ имеет канонический вид $Q(x) = \lambda_1x_1^2 + \ldots + \lambda_nx_n^2$ (главные оси --- это $\langle e_1 \rangle, \ldots, \langle e_n \rangle$).
+
+\textbf{Доказательство}. Существует единственный самосопряжённый линейный оператор $\varphi \in L(\E)$, такой что $Q(x) = (x,\ \varphi(x))$, для любого ортонормированного базиса $\me: B(Q,\ \me) = A(\varphi,\ \me)$, где $A$ --- диагонализуема.
+
+\section*{42. Ортогональный линейный оператор в евклидовом пространстве: определение, пять эквивалентных условий}
+\textbf{Определение}. Линейный оператор $\varphi \in L(\E)$ называется \textbf{ортогональным}, если $(\varphi(x),\ \varphi(y)) = (x,\ y)\ \forall x, y \in \E$ (то есть $\varphi$ сохраняет скалярное произведение).
+
+\textbf{Предложение}. Для $\varphi \in L(\E)$ следующие условия эквивалентны:
+\vspace{-3mm}
+\begin{enumerate}
+    \itemsep=-0.3em
+    \item $\varphi$ --- ортогональный линейный оператор
+    \item $\varphi$ сохраняет длину, то есть $|\varphi(x)| = |x|,\ \forall x \in \E$
+    \item $\exists \varphi^{-1}$, причём $\varphi^{-1}=\varphi^*$ (т.е. $\varphi\varphi^* = \varphi^*\varphi = \text{Id}$)
+    \item Для любого ортонормированного базиса $\me$ матрица $A(\varphi,\ \me)$ диагональна
+    \item Для любого ортонормированного базиса $\me = (e_1, \ldots, e_n) : (\varphi(e_1), \ldots, \varphi(e_n))$ --- тоже ортонормированный базис.
+\end{enumerate}
+
+\textbf{Доказательство} (из Каина).
+
+\roundrect{$1 \Rightarrow 2$} $|\varphi(x)| = \sqrt{(\varphi(x),\ \varphi(x))} = \sqrt{(x,\ x)} = |x|$
+
+\roundrect{$1 \& 2 \Rightarrow 3$} Найдём ядро $\varphi$: $\varphi(x) = 0 \Rightarrow |\varphi(x)| = 0 \Rightarrow |x| = 0 \Rightarrow x = 0$.
+
+Получаем $\Ker\varphi = \{0\}$, следовательно, существует $\varphi^{-1}$. Докажем, что $\varphi^{-1} = \varphi$:
+\vspace{-3mm}
+\[
+(\varphi(x)^{-1},\ y) = (\varphi(\varphi(x)^{-1}),\ \varphi(y)) = (x,\ \varphi(y))
+\]
+
+\vspace{-3mm}
+\roundrect{$3 \Leftrightarrow 4$} Пусть $\me$ --- ортонормированный базис, $A = A(\varphi,\ \me)$. Тогда $\begin{cases*}
+A(\varphi^{-1},\ \me) = A^{-1}, \\
+A(\varphi^*,\ \me) = A^T
+\end{cases*} \Rightarrow A^T = A^{-1} \Rightarrow$ $A$ --- ортогональная матрица.
+
+\roundrect{$4 \Rightarrow 5$} Пусть $\me = (e_1, \ldots, e_n)$ --- ортонормированный базис. Тогда верно, что
+\vspace{-3mm}
+\[
+(\varphi(e_1), \ldots, \varphi(e_n)) = (e_1, \ldots, e_n) A,\ A = A(\varphi,\ \me)
+\]
+
+\vspace{-3mm}
+Так как $A$ --- ортонормированная матрица, то $(\varphi(e_1), \ldots, \varphi(e_n))$ --- ортонормированный базис.
+
+\roundrect{$5 \Rightarrow 1$} $\me$ --- ортонормированный базис, $x = x_1e_1 + \ldots + x_ne_n,\ y = y_1e_1 + \ldots + y_ne_n$.
+
+\begin{gather*}
+(\varphi(x),\ \varphi(y)) = (\varphi(\sum_{i = 1}^{n}x_ie_i),\ \varphi(\sum_{j = 1}^{n}y_je_j)) = \\ = (\varphi(\sum_{i = 1}^{n}x_i\varphi(e_i)),\ \varphi(\sum_{j = 1}^{n}y_j\varphi(e_j)) = \sum_{i = 1}^{n}\sum_{j = 1}^{n}x_iy_j\underset{= \delta_{ij} = (e_i,\ e_j)}{(\varphi(e_i),\ \varphi(e_j)))} = \\ = \sum_{i = 1}^{n}\sum_{j = 1}^{n}x_iy_j(e_i,\ e_j) = (x,\ y).
+\end{gather*}
+
+\section*{43. Классификация ортогональных линейных операторов в одномерном и двумерном евклидовых пространствах}
+Нет записей
+
+\section*{44. Ортогональный линейный оператор в евклидовом пространстве: инвариантность ортогонального дополнения к инвариантному подпространству, теорема о каноническом виде. Классификация ортогональных линейных операторов в трёхмерном евклидовом пространстве}
+\textbf{Предложение}. $\varphi \in L(\E)$ --- ортогональный оператор. $\varphi \subseteq \E$ --- $\varphi$-инвариантное подпространство $\Longrightarrow U^{\bot}$ --- тоже $\varphi$-инвариантео
+
+\textbf{Доказательство}.
+
+Имеем $\varphi(U) \in U$.
+
+Хотим $\varphi(U^\bot) \in U^\bot$.
+
+Положим $\psi = \varphi|_U$. Тогда $\psi$ --- ортогональный линейный оператор на $U \Rightarrow \exists \psi^{-1}$. Тогда
+\vspace{-3mm}
+\[
+\forall x \in U,\ \forall y \in U^\bot: (\underset{\in U}{x},\ \varphi(y)) = (\varphi^*(x),\ y) = (\varphi^{-1}(x),\ y) = (\underset{\in U}{\psi^{-1}(x)},\ \underset{\in U^T}{y}) = 0
+\]
+
+\vspace{5mm}
+\textbf{Теорема}. Для любого ортогонального оператора $\varphi \in L(\E)$ существует ортонормированный базис, в котором
+\[
+A(\varphi,\ \me) =
+\begin{pmatrix}
+\Pi(\alpha_1) &        &               &    &        &    &   &        & \\
+& \ddots &               &    &        &    &   &        & \\
+&        & \Pi(\alpha_k) &    &        &    &   &        & \\
+&        &               & -1 &        &    &   &        & \\
+&        &               &    & \ddots &    &   &        & \\
+&        &               &    &        & -1 &   &        & \\
+&        &               &    &        &    & 1 &        & \\
+&        &               &    &        &    &   & \ddots & \\
+&        &               &    &        &    &   &        & 1
+\end{pmatrix} (*),\ \text{где }
+\Pi(\alpha_i) =
+\begin{pmatrix}
+\cos\alpha_i & -\sin\alpha_i \\
+\sin\alpha_i & \cos\alpha_i
+\end{pmatrix}
+\]
+
+\textbf{Доказательство}. Индукция по $n$.
+
+$n = 1,\ 2$ было разобрано на лекциях.
+
+Для $n > 2$: существует либо одномерное, либо двумерное $\varphi$-инвариантное подпространство $U$. Тогда $\E = U \oplus U^\bot$ и $U^\bot$ --- $\varphi$-инвариантно.
+
+Так как $\dim U < n,\ \dim U^\bot < n$, то по предположению индукции в $U,\  U^\bot$ существуют ортонормированные базисы с требуемым свойством.
+
+Объединение этих базисов даёт требуемый базис в $\E$ с точностью до перестановки блоков.
+
+\vspace{5mm} 
+
+\textbf{Следствие}. Для любого ортогонального линейного оператора $\varphi$ в $\R^3$ существует ортонормированный базис $\me$, такой что либо $A(\varphi,\ \me) = \begin{pmatrix}
+\Pi(\alpha) & 0 \\
+ 0 & 1
+\end{pmatrix}$ (поворот), либо $A(\varphi,\ \me) = \begin{pmatrix}
+\Pi(\alpha) & 0 \\
+0 & -1
+\end{pmatrix}$ (зеркальный поворот).
+
+\textbf{Доказательство}. По теореме существует такой базис, в котором матрица $\varphi$ имеет (*) вид. Если в (*) есть блок $\Pi(\alpha)$, то всё хорошо. Иначе матрица имеет вид $\begin{pmatrix}
+\pm 1 & 0 & 0 \\
+0 & \pm 1 & 0 \\
+0 & 0 & \pm 1
+\end{pmatrix}$, но $\Pi(0) = \begin{pmatrix}
+1 & 0 \\
+0 & 1
+\end{pmatrix}$, $\Pi(1) = \Pi(0) = \begin{pmatrix}
+    -1 & 0 \\
+    0 & -1
+\end{pmatrix}$
+
+\section*{45. Теорема о сингулярных базисах для линейного отображения евклидовых пространств. Сингулярные значения линейного отображения. Сингулярное разложение матрицы и её сингулярные значения}
+\textbf{Теорема}. Существуют ортонормированные базисы $\me$ в $\E$ и $\mf$ в $\E'$ такие что
+\[
+A(\varphi,\ \me,\ \mf) =
+\left(\begin{tabular}{ccc|ccc}
+$\sigma_1$ &          &            &   &          &   \\
+& $\ddots$ &            &   &     0    &   \\
+&          & $\sigma_r$ &   &          &   \\ \hline
+&          &            & 0 &          &   \\
+&    0     &            &   & $\ddots$ &   \\
+&          &            &   &          & 0
+\end{tabular}\right),\ \ \underbrace{\sigma_1 \geqslant \sigma_2 \geqslant \ldots \geqslant \sigma_r}_{\text{определены однозначно}} > 0.
+\]
+
+\textbf{Доказательство}. $\E = \Ker\varphi \oplus (\Ker\varphi)^\bot$.
+
+$\dim(\Ker\varphi)^\bot = r = \dim\Im$.
+
+$\forall x, y \in ((\Ker\varphi)^\bot)$ положим $\beta(x,\ y) = (\varphi(x),\ \varphi(y))'$. Тогда $\beta(x,\ y)$ --- симметричная билинейная форма на $(\Ker\varphi)^\bot$. Более того, квадратичная форма $Q(x) = \beta(x,\ x)$ --- положительно определена: $Q(x) = (\varphi(x),\ \varphi(x))' \geqslant 0$. Если $Q(x) = 0$, то $\varphi(x) = 0 \Rightarrow x \in (\Ker\varphi \cap (\Ker\varphi)^\bot) \Rightarrow x = 0$.
+
+Приведём квадратичную форму к главным осям.
+
+Существует ортонормированный базис $\me_0 = (e_1, \ldots, e_r)$ в $(\Ker\varphi)^\bot$, такой что матрица $B(Q,\ \me_0) = \text{diag}(s_1, \ldots, s_r)$. Так как $Q > 0$, то все $s_i > 0$.
+
+Без ограничения общности можно считать, что $s_1 \geqslant \ldots \geqslant s_n > 0$. Положим $\sigma_i = \sqrt{s_i},\ i = 1, \ldots, r$. $f_i = \dfrac{1}{\sigma_i}\varphi(e_i)$.
+
+Тогда $(f_i,\ f_j)' = (\dfrac{1}{\sigma_i}\varphi(e_i),\ \dfrac{1}{\sigma_j}\varphi(e_j))' = \dfrac{1}{\sigma_i\sigma_j}(\varphi(e_i),\ \varphi(e_j))' = \dfrac{1}{\sigma_i\sigma_j}\beta(e_i,\ e_j) = 
+\begin{sqcases}
+0, \text{при } i \neq j, \\
+\frac{s_i}{\sigma_i^2} = 1, \text{при } i = j
+\end{sqcases}
+$
+
+Получили, что $f_1, \ldots, f_r$ --- это ортонормированный базис в $\text{Im}\varphi$. Теперь дополним $e_0$ до ортонормированного базиса $\me$ в $\E$ и дополним $f_1, \ldots, f_n$ до ортонормированного базиса $\mf$ в $\E$. Тогда
+\[
+A(\varphi,\ \me,\ \mf) =
+\left(\begin{tabular}{ccc|ccc}
+$\sigma_1$ &          &            &   &          &   \\
+& $\ddots$ &            &   &     0    &   \\
+&          & $\sigma_r$ &   &          &   \\ \hline
+&          &            & 0 &          &   \\
+&    0     &            &   & $\ddots$ &   \\
+&          &            &   &          & 0
+\end{tabular}\right),
+\]
+
+Числа $\sigma_1^2, \ldots, \sigma_r^2$ --- собственные значения в матрице квадратичной формы $Q$ в любом ортонормированном базисе $\Rightarrow \sigma_1, \ldots, \sigma_r$ определены однозначно.
+
+\vspace{5mm}
+\textbf{Следствие} (сингулярное разложение матрицы).
+\textit{SVD = "singular value decomposition"}
+
+$\forall A \in \text{Mat}_{m \times n}(\R)$ существует ортогональные матрицы $U \in \text{M}_m(\R)$ и $V \in \text{M}_n(\R)$, такие что
+\vspace{-2mm}
+\[
+A = U\Sigma V^T,\ \text{где } \Sigma =
+\left(\begin{tabular}{ccc|ccc}
+$\sigma_1$ &          &            &   &          &   \\
+& $\ddots$ &            &   &     0    &   \\
+&          & $\sigma_r$ &   &          &   \\ \hline
+&          &            & 0 &          &   \\
+&    0     &            &   & $\ddots$ &   \\
+&          &            &   &          & 0
+\end{tabular}\right),\ \ \sigma_1 \geqslant \sigma_2 \geqslant \ldots \geqslant \sigma_r > 0.
+\]
+
+Более того, числа $\sigma_1, \ldots, \sigma_r$ определены однозначно.
+
+\textbf{Доказательство}. Применим Теорему о сингулярных базисах к линейному отображению $\varphi: \R^n \rightarrow \R^n,\ x \mapsto Ax$.
+
+Тогда $\exists$ орт. и $U \in \text{M}_m(\R)$ и $V \in \text{M}_n(\R)$, такие что
+\[
+U^{-1}AV = 
+\left(\begin{tabular}{ccc|ccc}
+$\sigma_1$ &          &            &   &          &   \\
+& $\ddots$ &            &   &     0    &   \\
+&          & $\sigma_r$ &   &          &   \\ \hline
+&          &            & 0 &          &   \\
+&    0     &            &   & $\ddots$ &   \\
+&          &            &   &          & 0
+\end{tabular}\right) = \Sigma
+\]
+
+$\Leftrightarrow A = U\Sigma V^{-1} = U\Sigma V^T$.
+
+\end{document}
