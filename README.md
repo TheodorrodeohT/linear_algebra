@@ -6,4 +6,4 @@
 
 •[HSE Linalg Lab Fall 2016.ipynb](https://github.com/TheodorrodeohT/linear_algebra/blob/master/HSE%20Linalg%20Lab%20Fall%202016.ipynb) ─ лабораторная работа 2 модуля
 
-•[HSE Lab (linear regression).ipynb](https://github.com/TheodorrodeohT/linear_algebra/blob/master/HSE%20Lab%20(linear%20regression) ─ лабораторная работа 3 модуля
+•[HSE Lab (linear regression).ipynb](https://github.com/TheodorrodeohT/linear_algebra/blob/master/HSE%20Lab%20(linear%20regression)) ─ лабораторная работа 3 модуля
